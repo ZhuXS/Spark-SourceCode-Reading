@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
  * is a single list of options that needs to be maintained (well, sort of, but it makes it harder
  * to break things).
  */
-class SparkSubmitOptionParser {
+class SparkSubmitOptionParser {  //命令行参数解析器
 
   // The following constants define the "main" name for the available options. They're defined
   // to avoid copy & paste of the raw strings where they're needed.
@@ -36,28 +36,28 @@ class SparkSubmitOptionParser {
   // The fields are not static so that they're exposed to Scala code that uses this class. See
   // SparkSubmitArguments.scala. That is also why this class is not abstract - to allow code to
   // easily use these constants without having to create dummy implementations of this class.
-  protected final String CLASS = "--class";
+  protected final String CLASS = "--class"; //job的主类
   protected final String CONF = "--conf";
-  protected final String DEPLOY_MODE = "--deploy-mode";
-  protected final String DRIVER_CLASS_PATH = "--driver-class-path";
-  protected final String DRIVER_CORES = "--driver-cores";
+  protected final String DEPLOY_MODE = "--deploy-mode";  //client or cluster
+  protected final String DRIVER_CLASS_PATH = "--driver-class-path";  //driver程序的类路径
+  protected final String DRIVER_CORES = "--driver-cores";  //driver程序的使用CPU个数，仅限于Spark Alone模式
   protected final String DRIVER_JAVA_OPTIONS =  "--driver-java-options";
-  protected final String DRIVER_LIBRARY_PATH = "--driver-library-path";
-  protected final String DRIVER_MEMORY = "--driver-memory";
-  protected final String EXECUTOR_MEMORY = "--executor-memory";
-  protected final String FILES = "--files";
-  protected final String JARS = "--jars";
+  protected final String DRIVER_LIBRARY_PATH = "--driver-library-path";  //driver程序的库路径
+  protected final String DRIVER_MEMORY = "--driver-memory";  //driver程序使用内存大小
+  protected final String EXECUTOR_MEMORY = "--executor-memory";  //executor的内存大小
+  protected final String FILES = "--files";  //放在每一个executor工作目录的文件列表
+  protected final String JARS = "--jars";  //driver依赖的第三方jar包
   protected final String KILL_SUBMISSION = "--kill";
-  protected final String MASTER = "--master";
-  protected final String NAME = "--name";
+  protected final String MASTER = "--master";  //spark://host:port;mesos://host:port;yarn;yarn-cluster;yarn-client;local
+  protected final String NAME = "--name";  //Application Name
   protected final String PACKAGES = "--packages";
   protected final String PACKAGES_EXCLUDE = "--exclude-packages";
-  protected final String PROPERTIES_FILE = "--properties-file";
+  protected final String PROPERTIES_FILE = "--properties-file";  //设置应用程序属性的文件路径
   protected final String PROXY_USER = "--proxy-user";
-  protected final String PY_FILES = "--py-files";
+  protected final String PY_FILES = "--py-files";  //py文件列表
   protected final String REPOSITORIES = "--repositories";
   protected final String STATUS = "--status";
-  protected final String TOTAL_EXECUTOR_CORES = "--total-executor-cores";
+  protected final String TOTAL_EXECUTOR_CORES = "--total-executor-cores"; //executor使用的总核数
 
   // Options that do not take arguments.
   protected final String HELP = "--help";
@@ -70,11 +70,11 @@ class SparkSubmitOptionParser {
 
   // YARN-only options.
   protected final String ARCHIVES = "--archives";
-  protected final String EXECUTOR_CORES = "--executor-cores";
+  protected final String EXECUTOR_CORES = "--executor-cores"; //每一个executor的使用的内核数
   protected final String KEYTAB = "--keytab";
-  protected final String NUM_EXECUTORS = "--num-executors";
+  protected final String NUM_EXECUTORS = "--num-executors";  //启动的executor数量
   protected final String PRINCIPAL = "--principal";
-  protected final String QUEUE = "--queue";
+  protected final String QUEUE = "--queue";  //提交应用程序给Yarn队列
 
   /**
    * This is the canonical list of spark-submit options. Each entry in the array contains the
@@ -135,7 +135,7 @@ class SparkSubmitOptionParser {
    *
    * @throws IllegalArgumentException If an error is found during parsing.
    */
-  protected final void parse(List<String> args) {
+  protected final void parse(List<String> args) {  //解析参数
     Pattern eqSeparatedOpt = Pattern.compile("(--[^=]+)=(.+)");
 
     int idx = 0;

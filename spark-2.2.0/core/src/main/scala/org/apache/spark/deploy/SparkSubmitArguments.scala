@@ -36,7 +36,7 @@ import org.apache.spark.util.Utils
  * Parses and encapsulates arguments from the spark-submit script.
  * The env argument is used for testing.
  */
-private[deploy] class SparkSubmitArguments(args: Seq[String], env: Map[String, String] = sys.env)
+private[deploy] class SparkSubmitArguments(args: Seq[String], env: Map[String, String] = sys.env) //scope 为 deploy package
   extends SparkSubmitArgumentsParser {
   var master: String = null
   var deployMode: String = null
@@ -79,7 +79,7 @@ private[deploy] class SparkSubmitArguments(args: Seq[String], env: Map[String, S
   var useRest: Boolean = true // used internally
 
   /** Default properties present in the currently defined defaults file. */
-  lazy val defaultSparkProperties: HashMap[String, String] = {
+  lazy val defaultSparkProperties: HashMap[String, String] = {  //lazy 延迟初始化
     val defaultProperties = new HashMap[String, String]()
     // scalastyle:off println
     if (verbose) SparkSubmit.printStream.println(s"Using properties file: $propertiesFile")

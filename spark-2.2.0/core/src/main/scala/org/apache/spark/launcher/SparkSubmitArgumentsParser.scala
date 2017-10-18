@@ -22,4 +22,6 @@ package org.apache.spark.launcher
  * package, since Java doesn't have a feature similar to `private[spark]`, and we don't want
  * that class to be public.
  */
-private[spark] abstract class SparkSubmitArgumentsParser extends SparkSubmitOptionParser
+private[spark] abstract class SparkSubmitArgumentsParser extends SparkSubmitOptionParser  //使得SparkSubmitOptionParser暴露给lancher包
+                                                                                          //原因：SparkSubmitOptionParser使用java实现；暴露一个scala的抽象类，scope为spark package
+

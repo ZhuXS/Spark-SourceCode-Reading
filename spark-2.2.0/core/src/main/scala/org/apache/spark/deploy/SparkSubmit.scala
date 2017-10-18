@@ -54,9 +54,10 @@ import org.apache.spark.util._
  * Whether to submit, kill, or request the status of an application.
  * The latter two operations are currently supported only for standalone and Mesos cluster modes.
  */
-private[deploy] object SparkSubmitAction extends Enumeration {
-  type SparkSubmitAction = Value
-  val SUBMIT, KILL, REQUEST_STATUS = Value
+private[deploy] object SparkSubmitAction extends Enumeration {  //scope 为 deploy package，枚举类型
+  type SparkSubmitAction = Value //将Value的类型暴露给外界使用
+  val SUBMIT, KILL, REQUEST_STATUS = Value  // action of an application，Submit、Kill和Request the status of an application
+                                            //定义具体的枚举实例
 }
 
 /**
