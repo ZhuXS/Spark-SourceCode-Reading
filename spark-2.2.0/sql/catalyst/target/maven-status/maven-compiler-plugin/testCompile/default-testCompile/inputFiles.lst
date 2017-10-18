@@ -1,0 +1,5 @@
+/Users/shusesshou/Documents/GitHub/spark-2.2.0/sql/catalyst/src/test/java/org/apache/spark/sql/catalyst/expressions/RowBasedKeyValueBatchSuite.java
+/Users/shusesshou/Documents/GitHub/spark-2.2.0/sql/catalyst/src/test/java/org/apache/spark/sql/catalyst/expressions/HiveHasherSuite.java
+/Users/shusesshou/Documents/GitHub/spark-2.2.0/sql/catalyst/src/test/java/org/apache/spark/sql/streaming/JavaGroupStateTimeoutSuite.java
+/Users/shusesshou/Documents/GitHub/spark-2.2.0/sql/catalyst/src/test/java/org/apache/spark/sql/streaming/JavaOutputModeSuite.java
+/Users/shusesshou/Documents/GitHub/spark-2.2.0/sql/catalyst/src/test/java/org/apache/spark/sql/catalyst/expressions/XXH64Suite.java
