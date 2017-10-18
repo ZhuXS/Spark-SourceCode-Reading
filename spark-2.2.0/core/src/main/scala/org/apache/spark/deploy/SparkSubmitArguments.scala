@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.spark.deploy
+package org.apache.spark.deployo
 
 import java.io.{ByteArrayOutputStream, PrintStream}
 import java.lang.reflect.InvocationTargetException
@@ -79,11 +79,11 @@ private[deploy] class SparkSubmitArguments(args: Seq[String], env: Map[String, S
   var useRest: Boolean = true // used internally
 
   /** Default properties present in the currently defined defaults file. */
-  lazy val defaultSparkProperties: HashMap[String, String] = {  //lazy 延迟初始化
+  lazy val defaultSparkProperties: HashMap[String, String] = {  //lazy 延迟初始化，系统自行决定何时初始化成员的值（第一次需要引用该成员）
     val defaultProperties = new HashMap[String, String]()
     // scalastyle:off println
     if (verbose) SparkSubmit.printStream.println(s"Using properties file: $propertiesFile")
-    Option(propertiesFile).foreach { filename =>
+    Option(propertiesFile).foreach { filename =>  //default属性值文件
       val properties = Utils.getPropertiesFromFile(filename)
       properties.foreach { case (k, v) =>
         defaultProperties(k) = v
@@ -101,7 +101,7 @@ private[deploy] class SparkSubmitArguments(args: Seq[String], env: Map[String, S
 
   // Set parameters from command line arguments
   try {
-    parse(args.asJava)
+    parse(args.asJava) //convert to the java collection of arguments
   } catch {
     case e: IllegalArgumentException =>
       SparkSubmit.printErrorAndExit(e.getMessage())
@@ -121,7 +121,7 @@ private[deploy] class SparkSubmitArguments(args: Seq[String], env: Map[String, S
    */
   private def mergeDefaultSparkProperties(): Unit = {
     // Use common defaults file, if not specified by user
-    propertiesFile = Option(propertiesFile).getOrElse(Utils.getDefaultPropertiesFile(env))
+    propertiesFile = Option(propertiesFile).getOrElse(Utils.getDefaultPropertiesFile(env))  //如果有properties file则使用，没有在根据env环境变量去找默认值
     // Honor --conf before the defaults file
     defaultSparkProperties.foreach { case (k, v) =>
       if (!sparkProperties.contains(k)) {
@@ -145,7 +145,7 @@ private[deploy] class SparkSubmitArguments(args: Seq[String], env: Map[String, S
   /**
    * Load arguments from environment variables, Spark properties etc.
    */
-  private def loadEnvironmentArguments(): Unit = {
+  private def loadEnvironmentArguments(): Unit = { //填补缺失值
     master = Option(master)
       .orElse(sparkProperties.get("spark.master"))
       .orElse(env.get("MASTER"))
@@ -217,7 +217,7 @@ private[deploy] class SparkSubmitArguments(args: Seq[String], env: Map[String, S
     }
 
     // Global defaults. These should be keep to minimum to avoid confusing behavior.
-    master = Option(master).getOrElse("local[*]")
+    master = Option(master).getOrElse("local[*]")  //全局默认值
 
     // In YARN mode, app name can be set via SPARK_YARN_APP_NAME (see SPARK-5222)
     if (master.startsWith("yarn")) {
@@ -234,7 +234,7 @@ private[deploy] class SparkSubmitArguments(args: Seq[String], env: Map[String, S
     action = Option(action).getOrElse(SUBMIT)
   }
 
-  /** Ensure that required fields exists. Call this only once all defaults are loaded. */
+  /** Ensure that required fields exists. Call this only once all defaults are loaded. */  //检查参数合法性，根据action的不同，区分处理
   private def validateArguments(): Unit = {
     action match {
       case SUBMIT => validateSubmitArguments()
@@ -330,7 +330,7 @@ private[deploy] class SparkSubmitArguments(args: Seq[String], env: Map[String, S
   }
 
   /** Fill in values by parsing user options. */
-  override protected def handle(opt: String, value: String): Boolean = {
+  override protected def handle(opt: String, value: String): Boolean = {  //填充值
     opt match {
       case NAME =>
         name = value
@@ -475,7 +475,7 @@ private[deploy] class SparkSubmitArguments(args: Seq[String], env: Map[String, S
     childArgs ++= extra.asScala
   }
 
-  private def printUsageAndExit(exitCode: Int, unknownParam: Any = null): Unit = {
+  private def printUsageAndExit(exitCode: Int, unknownParam: Any = null): Unit = {  //展示用法并退出
     // scalastyle:off println
     val outStream = SparkSubmit.printStream
     if (unknownParam != null) {
@@ -570,7 +570,7 @@ private[deploy] class SparkSubmitArguments(args: Seq[String], env: Map[String, S
       """.stripMargin
     )
 
-    if (SparkSubmit.isSqlShell(mainClass)) {
+    if (SparkSubmit.isSqlShell(mainClass)) {  //sql Shell
       outStream.println("CLI options:")
       outStream.println(getSqlShellOptions())
     }
@@ -586,7 +586,7 @@ private[deploy] class SparkSubmitArguments(args: Seq[String], env: Map[String, S
    * Since the CLI will call `System.exit()`, we install a security manager to prevent that call
    * from working, and restore the original one afterwards.
    */
-  private def getSqlShellOptions(): String = {
+  private def getSqlShellOptions(): String = {  //移除无用的输出
     val currentOut = System.out
     val currentErr = System.err
     val currentSm = System.getSecurityManager()
