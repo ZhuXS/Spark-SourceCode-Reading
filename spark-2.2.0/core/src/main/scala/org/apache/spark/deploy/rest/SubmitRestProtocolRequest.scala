@@ -42,7 +42,7 @@ private[rest] class CreateSubmissionRequest extends SubmitRestProtocolRequest {
   var sparkProperties: Map[String, String] = null
   var environmentVariables: Map[String, String] = null
 
-  protected override def doValidate(): Unit = {
+  protected override def doValidate(): Unit = {  //参数合法性验证
     super.doValidate()
     assert(sparkProperties != null, "No Spark properties set!")
     assertFieldIsSet(appResource, "appResource")

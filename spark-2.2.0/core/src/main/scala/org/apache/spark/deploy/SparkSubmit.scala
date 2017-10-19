@@ -110,16 +110,16 @@ object SparkSubmit extends CommandLineUtils {
   // scalastyle:on println
 
   override def main(args: Array[String]): Unit = {
-    val appArgs = new SparkSubmitArguments(args)
+    val appArgs = new SparkSubmitArguments(args)  //解析、填充、验证参数
     if (appArgs.verbose) {
       // scalastyle:off println
       printStream.println(appArgs)
       // scalastyle:on println
     }
-    appArgs.action match {
-      case SparkSubmitAction.SUBMIT => submit(appArgs)
-      case SparkSubmitAction.KILL => kill(appArgs)
-      case SparkSubmitAction.REQUEST_STATUS => requestStatus(appArgs)
+    appArgs.action match {  //区分action
+      case SparkSubmitAction.SUBMIT => submit(appArgs)  //提交
+      case SparkSubmitAction.KILL => kill(appArgs)  //杀死
+      case SparkSubmitAction.REQUEST_STATUS => requestStatus(appArgs)  //获取状态
     }
   }
 

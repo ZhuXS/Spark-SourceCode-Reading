@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.spark.deployo
+package org.apache.spark.deploy
 
 import java.io.{ByteArrayOutputStream, PrintStream}
 import java.lang.reflect.InvocationTargetException

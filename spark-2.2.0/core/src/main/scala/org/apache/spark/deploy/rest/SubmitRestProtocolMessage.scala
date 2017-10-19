@@ -41,20 +41,20 @@ import org.apache.spark.util.Utils
 @JsonPropertyOrder(alphabetic = true)
 private[rest] abstract class SubmitRestProtocolMessage {
   @JsonIgnore
-  val messageType = Utils.getFormattedClassName(this)
+  val messageType = Utils.getFormattedClassName(this)  //获取message类型（类名）
 
   val action: String = messageType
   var message: String = null
 
   // For JSON deserialization
-  private def setAction(a: String): Unit = { }
+  private def setAction(a: String): Unit = { }  //for invoking
 
   /**
    * Serialize the message to JSON.
    * This also ensures that the message is valid and its fields are in the expected format.
    */
   def toJson: String = {
-    validate()
+    validate()  //验证合法性
     SubmitRestProtocolMessage.mapper.writeValueAsString(this)
   }
 
@@ -108,7 +108,7 @@ private[spark] object SubmitRestProtocolMessage {
    * Parse the value of the action field from the given JSON.
    * If the action field is not found, throw a [[SubmitRestMissingFieldException]].
    */
-  def parseAction(json: String): String = {
+  def parseAction(json: String): String = {  //从json中读出action字段的值
     val value: Option[String] = parse(json) match {
       case JObject(fields) =>
         fields.collectFirst { case ("action", v) => v }.collect { case JString(s) => s }
@@ -129,8 +129,8 @@ private[spark] object SubmitRestProtocolMessage {
   def fromJson(json: String): SubmitRestProtocolMessage = {
     val className = parseAction(json)
     val clazz = Utils.classForName(packagePrefix + "." + className)
-      .asSubclass[SubmitRestProtocolMessage](classOf[SubmitRestProtocolMessage])
-    fromJson(json, clazz)
+      .asSubclass[SubmitRestProtocolMessage](classOf[SubmitRestProtocolMessage])  //必须是SubmitRestProtocolMessage
+    fromJson(json, clazz)  //构造SubmitRestProtocolMessage
   }
 
   /**
@@ -141,6 +141,6 @@ private[spark] object SubmitRestProtocolMessage {
    * represents custom user-defined messages.
    */
   def fromJson[T <: SubmitRestProtocolMessage](json: String, clazz: Class[T]): T = {
-    mapper.readValue(json, clazz)
+    mapper.readValue(json, clazz)  //返回clazz类型的SubmitRestProtocolMessage
   }
 }

@@ -43,8 +43,11 @@
         <entry file="file://$PROJECT_DIR$/examples/src/main/scala/org/apache/spark/examples/SparkPi.scala">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="240">
-              <caret line="33" column="37" lean-forward="true" selection-start-line="33" selection-start-column="37" selection-end-line="33" selection-end-column="37" />
-              <folding />
+              <caret line="33" column="37" lean-forward="false" selection-start-line="33" selection-start-column="37" selection-end-line="33" selection-end-column="37" />
+              <folding>
+                <element signature="n#!!doc" expanded="false" />
+                <element signature="e#863#887#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -52,9 +55,12 @@
       <file leaf-file-name="SparkContext.scala" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/SparkContext.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="368">
+            <state relative-caret-position="9945">
               <caret line="719" column="29" lean-forward="false" selection-start-line="719" selection-start-column="8" selection-end-line="719" selection-end-column="29" />
-              <folding />
+              <folding>
+                <element signature="n#!!doc" expanded="false" />
+                <element signature="e#828#844#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -62,35 +68,19 @@
       <file leaf-file-name="SparkSubmit.scala" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/deploy/SparkSubmit.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1680">
-              <caret line="112" column="42" lean-forward="false" selection-start-line="112" selection-start-column="22" selection-end-line="112" selection-end-column="42" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-                <element signature="e#835#869#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SparkSubmitArguments.scala" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/deploy/SparkSubmitArguments.scala">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="18" column="0" lean-forward="true" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+            <state relative-caret-position="1245">
+              <caret line="129" column="22" lean-forward="false" selection-start-line="129" selection-start-column="22" selection-end-line="129" selection-end-column="22" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SparkSubmitOptionParser.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/launcher/src/main/java/org/apache/spark/launcher/SparkSubmitOptionParser.java">
+      <file leaf-file-name="RestSubmissionClient.scala" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/deploy/rest/RestSubmissionClient.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="367">
-              <caret line="76" column="60" lean-forward="true" selection-start-line="76" selection-start-column="60" selection-end-line="76" selection-end-column="60" />
-              <folding>
-                <element signature="e#7812#7813#0" expanded="true" />
-                <element signature="e#7863#7864#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="233">
+              <caret line="84" column="36" lean-forward="false" selection-start-line="84" selection-start-column="36" selection-end-line="84" selection-end-column="36" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -116,10 +106,13 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/core/src/main/scala/org/apache/spark/deploy/SparkSubmit.scala" />
         <option value="$PROJECT_DIR$/core/src/main/scala/org/apache/spark/launcher/SparkSubmitArgumentsParser.scala" />
         <option value="$PROJECT_DIR$/launcher/src/main/java/org/apache/spark/launcher/SparkSubmitOptionParser.java" />
         <option value="$PROJECT_DIR$/core/src/main/scala/org/apache/spark/deploy/SparkSubmitArguments.scala" />
+        <option value="$PROJECT_DIR$/core/src/main/scala/org/apache/spark/deploy/SparkSubmit.scala" />
+        <option value="$PROJECT_DIR$/core/src/main/scala/org/apache/spark/deploy/rest/SubmitRestProtocolRequest.scala" />
+        <option value="$PROJECT_DIR$/core/src/main/scala/org/apache/spark/deploy/rest/SubmitRestProtocolMessage.scala" />
+        <option value="$PROJECT_DIR$/core/src/main/scala/org/apache/spark/deploy/rest/RestSubmissionClient.scala" />
       </list>
     </option>
   </component>
@@ -170,9 +163,19 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="spark-parent_2.11" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="External Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
+            </PATH_ELEMENT>
+          </PATH>
           <PATH>
             <PATH_ELEMENT>
               <option name="myItemId" value="spark-parent_2.11" />
@@ -302,10 +305,112 @@
               <option name="myItemId" value="main" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scala" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="spark" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="spark-parent_2.11" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="spark-2.2.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scala" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="spark" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="deploy" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="spark-parent_2.11" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="spark-2.2.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scala" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="spark" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="deploy" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rest" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="spark-parent_2.11" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="spark-2.2.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="Scratches" />
     </panes>
   </component>
@@ -804,12 +909,13 @@
       <option name="presentableId" value="Default" />
       <updated>1508305286565</updated>
       <workItem from="1508305291950" duration="2456000" />
-      <workItem from="1508307950636" duration="6850000" />
+      <workItem from="1508307950636" duration="11136000" />
+      <workItem from="1508377668269" duration="3957000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="9306000" />
+    <option name="totallyTimeSpent" value="17549000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
@@ -825,7 +931,7 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5775681" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25274727" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30525032" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -841,6 +947,33 @@
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
+    <layout-to-restore>
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39937106" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32914045" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5775681" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25274727" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
+    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="processedProjectFiles" value="true" />
@@ -850,7 +983,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="3" />
+      <option name="time" value="4" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -861,9 +994,112 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/examples/src/main/scala/org/apache/spark/examples/SparkPi.scala">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="33" column="37" lean-forward="false" selection-start-line="33" selection-start-column="37" selection-end-line="33" selection-end-column="37" />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+            <element signature="e#863#887#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/SparkContext.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="10785">
+          <caret line="719" column="29" lean-forward="false" selection-start-line="719" selection-start-column="8" selection-end-line="719" selection-end-column="29" />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+            <element signature="e#828#844#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/deploy/SparkSubmit.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1935">
+          <caret line="129" column="22" lean-forward="true" selection-start-line="129" selection-start-column="22" selection-end-line="129" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/deploy/rest/RestSubmissionClient.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1200">
+          <caret line="80" column="50" lean-forward="false" selection-start-line="80" selection-start-column="50" selection-end-line="80" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/deploy/rest/SubmitRestProtocolRequest.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="26" column="71" lean-forward="false" selection-start-line="26" selection-start-column="71" selection-end-line="26" selection-end-column="71" />
+          <folding>
+            <element signature="e#840#861#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/deploy/rest/SubmitRestProtocolMessage.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1515">
+          <caret line="101" column="29" lean-forward="false" selection-start-line="101" selection-start-column="29" selection-end-line="101" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-databind/2.6.5/jackson-databind-2.6.5-sources.jar!/com/fasterxml/jackson/databind/ObjectMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6690">
+          <caret line="446" column="11" lean-forward="false" selection-start-line="446" selection-start-column="11" selection-end-line="446" selection-end-column="11" />
+          <folding>
+            <element signature="e#18082#18118#0" expanded="false" />
+            <element signature="e#18837#18838#0" expanded="false" />
+            <element signature="e#18875#18876#0" expanded="false" />
+            <element signature="e#36526#36534#0" expanded="false" />
+            <element signature="e#74986#75016#0" expanded="false" />
+            <element signature="e#76213#76243#0" expanded="false" />
+            <element signature="e#77401#77431#0" expanded="false" />
+            <element signature="e#78417#78447#0" expanded="false" />
+            <element signature="e#80644#80674#1" expanded="false" />
+            <element signature="e#97195#97241#0" expanded="false" />
+            <element signature="e#101896#101926#0" expanded="false" />
+            <element signature="e#102906#102952#0" expanded="false" />
+            <element signature="e#103943#103973#0" expanded="false" />
+            <element signature="e#104928#104958#0" expanded="false" />
+            <element signature="e#106013#106059#0" expanded="false" />
+            <element signature="e#106322#106352#0" expanded="false" />
+            <element signature="e#107297#107327#0" expanded="false" />
+            <element signature="e#108383#108429#0" expanded="false" />
+            <element signature="e#109424#109454#0" expanded="false" />
+            <element signature="e#109689#109719#0" expanded="false" />
+            <element signature="e#110046#110092#0" expanded="false" />
+            <element signature="e#110358#110388#0" expanded="false" />
+            <element signature="e#110615#110645#0" expanded="false" />
+            <element signature="e#110977#111023#0" expanded="false" />
+            <element signature="e#111294#111324#0" expanded="false" />
+            <element signature="e#111556#111586#0" expanded="false" />
+            <element signature="e#111918#111948#0" expanded="false" />
+            <element signature="e#112341#112387#0" expanded="false" />
+            <element signature="e#112657#112703#0" expanded="false" />
+            <element signature="e#113030#113060#0" expanded="false" />
+            <element signature="e#113287#113317#0" expanded="false" />
+            <element signature="e#115918#115947#0" expanded="false" />
+            <element signature="e#117018#117047#0" expanded="false" />
+            <element signature="e#133051#133081#0" expanded="false" />
+            <element signature="e#133439#133469#0" expanded="false" />
+            <element signature="e#133761#133791#0" expanded="false" />
+            <element signature="e#134474#134503#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/examples/src/main/scala/org/apache/spark/examples/SparkPi.scala">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
+            <element signature="n#!!doc" expanded="false" />
             <element signature="e#863#887#0" expanded="false" />
           </folding>
         </state>
@@ -873,10 +1109,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1515">
           <caret line="101" column="8" lean-forward="false" selection-start-line="101" selection-start-column="8" selection-end-line="101" selection-end-column="8" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-            <element signature="e#832#880#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -884,7 +1116,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="405">
           <caret line="27" column="0" lean-forward="true" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -900,10 +1131,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="810">
           <caret line="54" column="97" lean-forward="true" selection-start-line="54" selection-start-column="97" selection-end-line="54" selection-end-column="97" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="e#835#869#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -934,10 +1162,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1155">
           <caret line="101" column="8" lean-forward="false" selection-start-line="101" selection-start-column="8" selection-end-line="101" selection-end-column="8" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-            <element signature="e#832#880#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -952,7 +1176,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="405">
           <caret line="27" column="0" lean-forward="false" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -964,19 +1187,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/deploy/rest/RestSubmissionClient.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="17" column="27" lean-forward="false" selection-start-line="17" selection-start-column="27" selection-end-line="17" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-library/2.11.8/scala-library-2.11.8-sources.jar!/scala/Enumeration.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="328">
           <caret line="127" column="21" lean-forward="false" selection-start-line="127" selection-start-column="18" selection-end-line="127" selection-end-column="21" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1071,7 +1285,7 @@
           </nodes>
           <notes />
           <edges />
-          <settings layout="Hierarchic Group" zoom="0.4337158878689054" x="680.6050873651387" y="715.280390942057" />
+          <settings layout="Hierarchic Group" zoom="0.4337158878689054" x="681.0" y="715.0" />
           <SelectedNodes />
           <Categories />
           <SCOPE>All</SCOPE>
@@ -1082,16 +1296,22 @@
     <entry file="file://$PROJECT_DIR$/examples/src/main/scala/org/apache/spark/examples/SparkPi.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
-          <caret line="33" column="37" lean-forward="true" selection-start-line="33" selection-start-column="37" selection-end-line="33" selection-end-column="37" />
-          <folding />
+          <caret line="33" column="37" lean-forward="false" selection-start-line="33" selection-start-column="37" selection-end-line="33" selection-end-column="37" />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+            <element signature="e#863#887#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/SparkContext.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="368">
+        <state relative-caret-position="9945">
           <caret line="719" column="29" lean-forward="false" selection-start-line="719" selection-start-column="8" selection-end-line="719" selection-end-column="29" />
-          <folding />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+            <element signature="e#828#844#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1099,7 +1319,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
           <caret line="32" column="32" lean-forward="false" selection-start-line="32" selection-start-column="21" selection-end-line="32" selection-end-column="32" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1107,18 +1326,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
           <caret line="25" column="160" lean-forward="false" selection-start-line="25" selection-start-column="160" selection-end-line="25" selection-end-column="160" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/launcher/src/main/java/org/apache/spark/launcher/SparkSubmitOptionParser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="367">
-          <caret line="76" column="60" lean-forward="true" selection-start-line="76" selection-start-column="60" selection-end-line="76" selection-end-column="60" />
-          <folding>
-            <element signature="e#7812#7813#0" expanded="true" />
-            <element signature="e#7863#7864#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1126,15 +1333,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
           <caret line="17" column="56" lean-forward="false" selection-start-line="17" selection-start-column="43" selection-end-line="17" selection-end-column="56" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/util/Utils.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="2098" column="67" lean-forward="false" selection-start-line="2098" selection-start-column="58" selection-end-line="2098" selection-end-column="67" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1142,25 +1340,136 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
           <caret line="21" column="7" lean-forward="false" selection-start-line="21" selection-start-column="7" selection-end-line="21" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/launcher/src/main/java/org/apache/spark/launcher/SparkSubmitOptionParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="367">
+          <caret line="76" column="60" lean-forward="true" selection-start-line="76" selection-start-column="60" selection-end-line="76" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/deploy/SparkSubmitArguments.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="242">
+          <caret line="63" column="6" lean-forward="false" selection-start-line="63" selection-start-column="6" selection-end-line="63" selection-end-column="6" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/deploy/SparkSubmit.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1680">
-          <caret line="112" column="42" lean-forward="false" selection-start-line="112" selection-start-column="22" selection-end-line="112" selection-end-column="42" />
+        <state relative-caret-position="1245">
+          <caret line="129" column="22" lean-forward="false" selection-start-line="129" selection-start-column="22" selection-end-line="129" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_131.jdk/Contents/Home/src.zip!/java/lang/String.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="308">
+          <caret line="2237" column="45" lean-forward="false" selection-start-line="2237" selection-start-column="39" selection-end-line="2237" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/util/Utils.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="196">
+          <caret line="1840" column="36" lean-forward="false" selection-start-line="1840" selection-start-column="36" selection-end-line="1840" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-databind/2.6.5/jackson-databind-2.6.5-sources.jar!/com/fasterxml/jackson/databind/ObjectMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="362">
+          <caret line="412" column="33" lean-forward="false" selection-start-line="412" selection-start-column="25" selection-end-line="412" selection-end-column="33" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="e#835#869#0" expanded="true" />
+            <element signature="e#18082#18118#0" expanded="false" />
+            <element signature="e#18837#18838#0" expanded="false" />
+            <element signature="e#18875#18876#0" expanded="false" />
+            <element signature="e#36526#36534#0" expanded="false" />
+            <element signature="e#74986#75016#0" expanded="false" />
+            <element signature="e#76213#76243#0" expanded="false" />
+            <element signature="e#77401#77431#0" expanded="false" />
+            <element signature="e#78417#78447#0" expanded="false" />
+            <element signature="e#80644#80674#1" expanded="false" />
+            <element signature="e#97195#97241#0" expanded="false" />
+            <element signature="e#101896#101926#0" expanded="false" />
+            <element signature="e#102906#102952#0" expanded="false" />
+            <element signature="e#103943#103973#0" expanded="false" />
+            <element signature="e#104928#104958#0" expanded="false" />
+            <element signature="e#106013#106059#0" expanded="false" />
+            <element signature="e#106322#106352#0" expanded="false" />
+            <element signature="e#107297#107327#0" expanded="false" />
+            <element signature="e#108383#108429#0" expanded="false" />
+            <element signature="e#109424#109454#0" expanded="false" />
+            <element signature="e#109689#109719#0" expanded="false" />
+            <element signature="e#110046#110092#0" expanded="false" />
+            <element signature="e#110358#110388#0" expanded="false" />
+            <element signature="e#110615#110645#0" expanded="false" />
+            <element signature="e#110977#111023#0" expanded="false" />
+            <element signature="e#111294#111324#0" expanded="false" />
+            <element signature="e#111556#111586#0" expanded="false" />
+            <element signature="e#111918#111948#0" expanded="false" />
+            <element signature="e#112341#112387#0" expanded="false" />
+            <element signature="e#112657#112703#0" expanded="false" />
+            <element signature="e#113030#113060#0" expanded="false" />
+            <element signature="e#113287#113317#0" expanded="false" />
+            <element signature="e#115918#115947#0" expanded="false" />
+            <element signature="e#117018#117047#0" expanded="false" />
+            <element signature="e#133051#133081#0" expanded="false" />
+            <element signature="e#133439#133469#0" expanded="false" />
+            <element signature="e#133761#133791#0" expanded="false" />
+            <element signature="e#134474#134503#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/deploy/SparkSubmitArguments.scala">
+    <entry file="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/module/jackson-module-scala_2.11/2.6.5/jackson-module-scala_2.11-2.6.5-sources.jar!/com/fasterxml/jackson/module/scala/DefaultScalaModule.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="18" column="0" lean-forward="true" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+        <state relative-caret-position="180">
+          <caret line="12" column="2" lean-forward="true" selection-start-line="12" selection-start-column="2" selection-end-line="12" selection-end-column="2" />
+          <folding>
+            <element signature="e#44#157#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/deploy/rest/SubmitRestProtocolMessage.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="212">
+          <caret line="106" column="5" lean-forward="true" selection-start-line="106" selection-start-column="5" selection-end-line="106" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/deploy/rest/SubmitRestProtocolRequest.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="663">
+          <caret line="68" column="54" lean-forward="false" selection-start-line="68" selection-start-column="52" selection-end-line="68" selection-end-column="54" />
+          <folding>
+            <element signature="e#840#861#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/deploy/rest/SubmitRestProtocolResponse.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1114">
+          <caret line="82" column="25" lean-forward="true" selection-start-line="82" selection-start-column="25" selection-end-line="82" selection-end-column="25" />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/deploy/rest/RestSubmissionClient.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="233">
+          <caret line="84" column="36" lean-forward="false" selection-start-line="84" selection-start-column="36" selection-end-line="84" selection-end-column="36" />
           <folding />
         </state>
       </provider>

@@ -58,11 +58,11 @@ import org.apache.spark.util.Utils
  * by the server.
  */
 private[spark] class RestSubmissionClient(master: String) extends Logging {
-  import RestSubmissionClient._
+  import RestSubmissionClient._  //RestSubmissionClient Object
 
   private val supportedMasterPrefixes = Seq("spark://", "mesos://")
 
-  private val masters: Array[String] = if (master.startsWith("spark://")) {
+  private val masters: Array[String] = if (master.startsWith("spark://")) {   //解析master地址
     Utils.parseStandaloneMasterUrls(master)
   } else {
     Array(master)
@@ -70,8 +70,8 @@ private[spark] class RestSubmissionClient(master: String) extends Logging {
 
   // Set of masters that lost contact with us, used to keep track of
   // whether there are masters still alive for us to communicate with
-  private val lostMasters = new mutable.HashSet[String]
-
+  private val lostMasters = new mutable.HashSet[String]  //mutable，可变集合类
+                                                         //仍然可以进行交互的master名单
   /**
    * Submit an application specified by the parameters in the provided request.
    *
@@ -80,8 +80,8 @@ private[spark] class RestSubmissionClient(master: String) extends Logging {
    */
   def createSubmission(request: CreateSubmissionRequest): SubmitRestProtocolResponse = {
     logInfo(s"Submitting a request to launch an application in $master.")
-    var handled: Boolean = false
-    var response: SubmitRestProtocolResponse = null
+    var handled: Boolean = false  //完成状态
+    var response: SubmitRestProtocolResponse = null  //response
     for (m <- masters if !handled) {
       validateMaster(m)
       val url = getSubmitUrl(m)
