@@ -83,15 +83,15 @@ private[spark] class RestSubmissionClient(master: String) extends Logging {
     var handled: Boolean = false  //完成状态
     var response: SubmitRestProtocolResponse = null  //response
     for (m <- masters if !handled) {
-      validateMaster(m)
-      val url = getSubmitUrl(m)
+      validateMaster(m)  //验证master地址
+      val url = getSubmitUrl(m)  //构造请求url
       try {
-        response = postJson(url, request.toJson)
+        response = postJson(url, request.toJson)  //发送post请求
         response match {
           case s: CreateSubmissionResponse =>
-            if (s.success) {
-              reportSubmissionStatus(s)
-              handleRestResponse(s)
+            if (s.success) {  //请求成功
+              reportSubmissionStatus(s)  //输出状态
+              handleRestResponse(s) //日志输出Response
               handled = true
             }
           case unexpected =>
@@ -108,7 +108,7 @@ private[spark] class RestSubmissionClient(master: String) extends Logging {
   }
 
   /** Request that the server kill the specified submission. */
-  def killSubmission(submissionId: String): SubmitRestProtocolResponse = {
+  def killSubmission(submissionId: String): SubmitRestProtocolResponse = {  //同createSubmission
     logInfo(s"Submitting a request to kill submission $submissionId in $master.")
     var handled: Boolean = false
     var response: SubmitRestProtocolResponse = null
@@ -137,7 +137,7 @@ private[spark] class RestSubmissionClient(master: String) extends Logging {
   }
 
   /** Request the status of a submission from the server. */
-  def requestSubmissionStatus(
+  def requestSubmissionStatus(  //同createSubmission
       submissionId: String,
       quiet: Boolean = false): SubmitRestProtocolResponse = {
     logInfo(s"Submitting a request for the status of submission $submissionId in $master.")
@@ -169,7 +169,7 @@ private[spark] class RestSubmissionClient(master: String) extends Logging {
   }
 
   /** Construct a message that captures the specified parameters for submitting an application. */
-  def constructSubmitRequest(
+  def constructSubmitRequest(  //构造Request Message
       appResource: String,
       mainClass: String,
       appArgs: Array[String],
@@ -187,7 +187,7 @@ private[spark] class RestSubmissionClient(master: String) extends Logging {
   }
 
   /** Send a GET request to the specified URL. */
-  private def get(url: URL): SubmitRestProtocolResponse = {
+  private def get(url: URL): SubmitRestProtocolResponse = {  //发送get请求
     logDebug(s"Sending GET request to server at $url.")
     val conn = url.openConnection().asInstanceOf[HttpURLConnection]
     conn.setRequestMethod("GET")
@@ -195,7 +195,7 @@ private[spark] class RestSubmissionClient(master: String) extends Logging {
   }
 
   /** Send a POST request to the specified URL. */
-  private def post(url: URL): SubmitRestProtocolResponse = {
+  private def post(url: URL): SubmitRestProtocolResponse = {  //发送post请求
     logDebug(s"Sending POST request to server at $url.")
     val conn = url.openConnection().asInstanceOf[HttpURLConnection]
     conn.setRequestMethod("POST")
@@ -203,7 +203,7 @@ private[spark] class RestSubmissionClient(master: String) extends Logging {
   }
 
   /** Send a POST request with the given JSON as the body to the specified URL. */
-  private def postJson(url: URL, json: String): SubmitRestProtocolResponse = {
+  private def postJson(url: URL, json: String): SubmitRestProtocolResponse = {  //携带Json Body的post请求
     logDebug(s"Sending POST request to server at $url:\n$json")
     val conn = url.openConnection().asInstanceOf[HttpURLConnection]
     conn.setRequestMethod("POST")
@@ -230,22 +230,23 @@ private[spark] class RestSubmissionClient(master: String) extends Logging {
    * Exposed for testing.
    */
   private[rest] def readResponse(connection: HttpURLConnection): SubmitRestProtocolResponse = {
-    import scala.concurrent.ExecutionContext.Implicits.global
-    val responseFuture = Future {
+    import scala.concurrent.ExecutionContext.Implicits.global  //导入默认的全局执行上下文（理解成线程池？？？）
+    val responseFuture = Future {  //指代某个尚未就绪的值的占位符对象，非阻塞并行，基于回调
+                                   //future只能被赋值一次
       val dataStream =
         if (connection.getResponseCode == HttpServletResponse.SC_OK) {
           connection.getInputStream
         } else {
           connection.getErrorStream
-        }
+        }  //获取数据
       // If the server threw an exception while writing a response, it will not have a body
       if (dataStream == null) {
         throw new SubmitRestProtocolException("Server returned empty body")
       }
-      val responseJson = Source.fromInputStream(dataStream).mkString
+      val responseJson = Source.fromInputStream(dataStream).mkString  //解析数据
       logDebug(s"Response from the server:\n$responseJson")
       val response = SubmitRestProtocolMessage.fromJson(responseJson)
-      response.validate()
+      response.validate()  //验证response的合法性
       response match {
         // If the response is an error, log the message
         case error: ErrorResponse =>
@@ -260,7 +261,7 @@ private[spark] class RestSubmissionClient(master: String) extends Logging {
     }
 
     // scalastyle:off awaitresult
-    try { Await.result(responseFuture, 10.seconds) } catch {
+    try { Await.result(responseFuture, 10.seconds) } catch {  //每10秒去检测数据是否返回，异步等待
       // scalastyle:on awaitresult
       case unreachable @ (_: FileNotFoundException | _: SocketException) =>
         throw new SubmitRestConnectionException("Unable to connect to server", unreachable)
@@ -274,7 +275,7 @@ private[spark] class RestSubmissionClient(master: String) extends Logging {
   }
 
   /** Return the REST URL for creating a new submission. */
-  private def getSubmitUrl(master: String): URL = {
+  private def getSubmitUrl(master: String): URL = {  //拼接请求url
     val baseUrl = getBaseUrl(master)
     new URL(s"$baseUrl/create")
   }
@@ -304,7 +305,7 @@ private[spark] class RestSubmissionClient(master: String) extends Logging {
   }
 
   /** Throw an exception if this is not standalone mode. */
-  private def validateMaster(master: String): Unit = {
+  private def validateMaster(master: String): Unit = {  //验证master地址的合法性
     val valid = supportedMasterPrefixes.exists { prefix => master.startsWith(prefix) }
     if (!valid) {
       throw new IllegalArgumentException(
@@ -315,7 +316,7 @@ private[spark] class RestSubmissionClient(master: String) extends Logging {
 
   /** Report the status of a newly created submission. */
   private def reportSubmissionStatus(
-      submitResponse: CreateSubmissionResponse): Unit = {
+      submitResponse: CreateSubmissionResponse): Unit = {  //输出创建提交的状态
     if (submitResponse.success) {
       val submissionId = submitResponse.submissionId
       if (submissionId != null) {
@@ -412,9 +413,9 @@ private[spark] object RestSubmissionClient {
     }
     val sparkProperties = conf.getAll.toMap
     val client = new RestSubmissionClient(master)
-    val submitRequest = client.constructSubmitRequest(
+    val submitRequest = client.constructSubmitRequest(  //构造Request Message
       appResource, mainClass, appArgs, sparkProperties, env)
-    client.createSubmission(submitRequest)
+    client.createSubmission(submitRequest)  //创建submission
   }
 
   def main(args: Array[String]): Unit = {
@@ -422,11 +423,11 @@ private[spark] object RestSubmissionClient {
       sys.error("Usage: RestSubmissionClient [app resource] [main class] [app args*]")
       sys.exit(1)
     }
-    val appResource = args(0)
-    val mainClass = args(1)
+    val appResource = args(0) //获取参数
+    val mainClass = args(1)  //获取参数
     val appArgs = args.slice(2, args.length)
     val conf = new SparkConf
-    val env = filterSystemEnvironment(sys.env)
+    val env = filterSystemEnvironment(sys.env)  //过滤环境变量
     run(appResource, mainClass, appArgs, conf, env)
   }
 

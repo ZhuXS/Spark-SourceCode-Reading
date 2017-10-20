@@ -150,11 +150,11 @@ object SparkSubmit extends CommandLineUtils {
    * main class.
    */
   @tailrec
-  private def submit(args: SparkSubmitArguments): Unit = {
-    val (childArgs, childClasspath, sysProps, childMainClass) = prepareSubmitEnvironment(args)
+  private def submit(args: SparkSubmitArguments): Unit = {  //提交
+    val (childArgs, childClasspath, sysProps, childMainClass) = prepareSubmitEnvironment(args)  //准备submit环境
 
     def doRunMain(): Unit = {
-      if (args.proxyUser != null) {
+      if (args.proxyUser != null) {  //hadoop的安全设置
         val proxyUser = UserGroupInformation.createProxyUser(args.proxyUser,
           UserGroupInformation.getCurrentUser())
         try {
@@ -177,7 +177,7 @@ object SparkSubmit extends CommandLineUtils {
               throw e
             }
         }
-      } else {
+      } else {  //无安全设置？？？
         runMain(childArgs, childClasspath, sysProps, childMainClass, args.verbose)
       }
     }
@@ -216,7 +216,7 @@ object SparkSubmit extends CommandLineUtils {
    *   (4) the main class for the child
    * Exposed for testing.
    */
-  private[deploy] def prepareSubmitEnvironment(args: SparkSubmitArguments)
+  private[deploy] def prepareSubmitEnvironment(args: SparkSubmitArguments)  //加载相关的jar包、file
       : (Seq[String], Seq[String], Map[String, String], String) = {
     // Return values
     val childArgs = new ArrayBuffer[String]()
@@ -225,7 +225,7 @@ object SparkSubmit extends CommandLineUtils {
     var childMainClass = ""
 
     // Set the cluster manager
-    val clusterManager: Int = args.master match {
+    val clusterManager: Int = args.master match {  //区分集群管理
       case "yarn" => YARN
       case "yarn-client" | "yarn-cluster" =>
         printWarning(s"Master ${args.master} is deprecated since 2.0." +
@@ -240,7 +240,7 @@ object SparkSubmit extends CommandLineUtils {
     }
 
     // Set the deploy mode; default is client mode
-    var deployMode: Int = args.deployMode match {
+    var deployMode: Int = args.deployMode match {  //区分部署模式
       case "client" | null => CLIENT
       case "cluster" => CLUSTER
       case _ => printErrorAndExit("Deploy mode must be either client or cluster"); -1
@@ -672,7 +672,7 @@ object SparkSubmit extends CommandLineUtils {
    * Note that this main class will not be the one provided by the user if we're
    * running cluster deploy mode or python applications.
    */
-  private def runMain(
+  private def runMain(  //运行
       childArgs: Seq[String],
       childClasspath: Seq[String],
       sysProps: Map[String, String],
@@ -690,7 +690,7 @@ object SparkSubmit extends CommandLineUtils {
     // scalastyle:on println
 
     val loader =
-      if (sysProps.getOrElse("spark.driver.userClassPathFirst", "false").toBoolean) {
+      if (sysProps.getOrElse("spark.driver.userClassPathFirst", "false").toBoolean) {  //spark driver
         new ChildFirstURLClassLoader(new Array[URL](0),
           Thread.currentThread.getContextClassLoader)
       } else {
@@ -753,7 +753,7 @@ object SparkSubmit extends CommandLineUtils {
     }
 
     try {
-      mainMethod.invoke(null, childArgs.toArray)
+      mainMethod.invoke(null, childArgs.toArray)  //执行方法
     } catch {
       case t: Throwable =>
         findCause(t) match {
