@@ -874,23 +874,23 @@ object SparkSession {
      *
      * @since 2.0.0
      */
-    def getOrCreate(): SparkSession = synchronized {
+    def getOrCreate(): SparkSession = synchronized {  //spark session的创建
       // Get the session from current thread's active session.
-      var session = activeThreadSession.get()
+      var session = activeThreadSession.get()  //当前线程（父线程）的session
       if ((session ne null) && !session.sparkContext.isStopped) {
         options.foreach { case (k, v) => session.sessionState.conf.setConfString(k, v) }
         if (options.nonEmpty) {
           logWarning("Using an existing SparkSession; some configuration may not take effect.")
         }
-        return session
+        return session  //返回当前线程的session
       }
 
       // Global synchronization so we will only set the default session once.
       SparkSession.synchronized {
         // If the current thread does not have an active session, get it from the global session.
-        session = defaultSession.get()
+        session = defaultSession.get()  //获取global session
         if ((session ne null) && !session.sparkContext.isStopped) {
-          options.foreach { case (k, v) => session.sessionState.conf.setConfString(k, v) }
+          options.foreach { case (k, v) => session.sessionState.conf.setConfString(k, v) }  //修改是原子操作，AutomicReference
           if (options.nonEmpty) {
             logWarning("Using an existing SparkSession; some configuration may not take effect.")
           }
@@ -898,15 +898,15 @@ object SparkSession {
         }
 
         // No active nor global default session. Create a new one.
-        val sparkContext = userSuppliedContext.getOrElse {
+        val sparkContext = userSuppliedContext.getOrElse {  //option getOrElse
           // set app name if not given
-          val randomAppName = java.util.UUID.randomUUID().toString
-          val sparkConf = new SparkConf()
-          options.foreach { case (k, v) => sparkConf.set(k, v) }
+          val randomAppName = java.util.UUID.randomUUID().toString  //随机app name
+          val sparkConf = new SparkConf()  //创建SparkConf
+          options.foreach { case (k, v) => sparkConf.set(k, v) }  //设置sparkConf属性
           if (!sparkConf.contains("spark.app.name")) {
-            sparkConf.setAppName(randomAppName)
+            sparkConf.setAppName(randomAppName)  //设置app name
           }
-          val sc = SparkContext.getOrCreate(sparkConf)
+          val sc = SparkContext.getOrCreate(sparkConf)  //设置sparkContext
           // maybe this is an existing SparkContext, update its SparkConf which maybe used
           // by SparkSession
           options.foreach { case (k, v) => sc.conf.set(k, v) }
@@ -934,14 +934,14 @@ object SparkSession {
           }
         }
 
-        session = new SparkSession(sparkContext, None, None, extensions)
+        session = new SparkSession(sparkContext, None, None, extensions)  //根据sparkContext和extensions创建session
         options.foreach { case (k, v) => session.sessionState.conf.setConfString(k, v) }
-        defaultSession.set(session)
+        defaultSession.set(session)  //设置sparkSession
 
         // Register a successfully instantiated context to the singleton. This should be at the
         // end of the class definition so that the singleton is updated only if there is no
         // exception in the construction of the instance.
-        sparkContext.addSparkListener(new SparkListener {
+        sparkContext.addSparkListener(new SparkListener {  //监听application终止事件
           override def onApplicationEnd(applicationEnd: SparkListenerApplicationEnd): Unit = {
             defaultSession.set(null)
             sqlListener.set(null)
@@ -1021,11 +1021,12 @@ object SparkSession {
   ////////////////////////////////////////////////////////////////////////////////////////
 
   /** The active SparkSession for the current thread. */
-  private val activeThreadSession = new InheritableThreadLocal[SparkSession]
+  private val activeThreadSession = new InheritableThreadLocal[SparkSession] //ThreadLocal，存储每一个线程的spark session
+                                                                             //保证子线程和新开的线程能够拿到该值
 
   /** Reference to the root SparkSession. */
-  private val defaultSession = new AtomicReference[SparkSession]
-
+  private val defaultSession = new AtomicReference[SparkSession]  //对sparkSession进行原子操作
+                                                                  //通过CAS设置DefaultSession
   private val HIVE_SESSION_STATE_BUILDER_CLASS_NAME =
     "org.apache.spark.sql.hive.HiveSessionStateBuilder"
 

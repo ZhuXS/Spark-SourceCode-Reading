@@ -36,7 +36,6 @@
 
 - —properties-file  *设置应用程序属性的文件路径*
 
-   
 
 ## 提交任务的过程
 
@@ -139,7 +138,7 @@ try {
 
 
 
-## 源码列表
+## 源码清单
 
 - *org.apache.spark.launcher.SparkSubmitOptionParser*
 
