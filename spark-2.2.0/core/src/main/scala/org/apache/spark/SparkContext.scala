@@ -61,11 +61,11 @@ import org.apache.spark.ui.jobs.JobProgressListener
 import org.apache.spark.util._
 
 /**
- * Main entry point for Spark functionality. A SparkContext represents the connection to a Spark
- * cluster, and can be used to create RDDs, accumulators and broadcast variables on that cluster.
+ * Main entry point for Spark s. A SparkContext represents the connection to a Spark
+ * cluster, and can be used to create RDDs, accumulators and broadcast variables on that cluster. 创建RDD，累加器和广播变量
  *
  * Only one SparkContext may be active per JVM.  You must `stop()` the active SparkContext before
- * creating a new one.  This limitation may eventually be removed; see SPARK-2243 for more details.
+ * creating a new one.  This limitation may eventually be removed; see SPARK-2243 for more details. 一个JVM只能跑一个SparkContext
  *
  * @param config a Spark Config object describing the application configuration. Any settings in
  *   this config overrides the default configs as well as system properties.
@@ -73,7 +73,7 @@ import org.apache.spark.util._
 class SparkContext(config: SparkConf) extends Logging {
 
   // The call site where this SparkContext was constructed.
-  private val creationSite: CallSite = Utils.getCallSite()
+  private val creationSite: CallSite = Utils.getCallSite() //returns the name of the user code class
 
   // If true, log warnings instead of throwing exceptions when multiple SparkContexts are active
   private val allowMultipleContexts: Boolean =
@@ -84,13 +84,13 @@ class SparkContext(config: SparkConf) extends Logging {
   // NOTE: this must be placed at the beginning of the SparkContext constructor.
   SparkContext.markPartiallyConstructed(this, allowMultipleContexts)
 
-  val startTime = System.currentTimeMillis()
+  val startTime = System.currentTimeMillis()  //开始时间
 
   private[spark] val stopped: AtomicBoolean = new AtomicBoolean(false)
 
   private[spark] def assertNotStopped(): Unit = {
     if (stopped.get()) {
-      val activeContext = SparkContext.activeContext.get()
+      val activeContext = SparkContext.activeContext.get()  //获取当前的sparkContext
       val activeCreationSite =
         if (activeContext == null) {
           "(No active SparkContext.)"
@@ -227,7 +227,7 @@ class SparkContext(config: SparkConf) extends Logging {
    * Return a copy of this SparkContext's configuration. The configuration ''cannot'' be
    * changed at runtime.
    */
-  def getConf: SparkConf = conf.clone()
+  def getConf: SparkConf = conf.clone()  //运行时不可改变
 
   def jars: Seq[String] = _jars
   def files: Seq[String] = _files

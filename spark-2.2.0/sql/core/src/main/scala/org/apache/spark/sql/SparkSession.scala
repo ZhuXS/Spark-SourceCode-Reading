@@ -874,7 +874,7 @@ object SparkSession {
      *
      * @since 2.0.0
      */
-    def getOrCreate(): SparkSession = synchronized {  //spark session的创建
+    def getOrCreate(): SparkSession = synchronized {  //spark session的创建，线程范围单例
       // Get the session from current thread's active session.
       var session = activeThreadSession.get()  //当前线程（父线程）的session
       if ((session ne null) && !session.sparkContext.isStopped) {
