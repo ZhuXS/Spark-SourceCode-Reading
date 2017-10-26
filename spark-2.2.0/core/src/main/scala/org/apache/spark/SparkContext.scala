@@ -61,7 +61,7 @@ import org.apache.spark.ui.jobs.JobProgressListener
 import org.apache.spark.util._
 
 /**
- * Main entry point for Spark s. A SparkContext represents the connection to a Spark
+ * Main entry point for Spark functionality. A SparkContext represents the connection to a Spark
  * cluster, and can be used to create RDDs, accumulators and broadcast variables on that cluster. 创建RDD，累加器和广播变量
  *
  * Only one SparkContext may be active per JVM.  You must `stop()` the active SparkContext before
@@ -227,7 +227,7 @@ class SparkContext(config: SparkConf) extends Logging {
    * Return a copy of this SparkContext's configuration. The configuration ''cannot'' be
    * changed at runtime.
    */
-  def getConf: SparkConf = conf.clone()  //运行时不可改变
+  def getConf: SparkConf = conf.clone() //运行期不能改变
 
   def jars: Seq[String] = _jars
   def files: Seq[String] = _files
