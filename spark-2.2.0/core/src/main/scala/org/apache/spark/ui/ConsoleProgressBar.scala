@@ -23,7 +23,7 @@ import org.apache.spark._
 import org.apache.spark.internal.Logging
 
 /**
- * ConsoleProgressBar shows the progress of stages in the next line of the console. It poll the
+ * d shows the progress of stages in the next line of the console. It poll the
  * status of active stages from `sc.statusTracker` periodically, the progress bar will be showed
  * up after the stage has ran at least 500ms. If multiple stages run in the same time, the status
  * of them will be combined together, showed in one line.

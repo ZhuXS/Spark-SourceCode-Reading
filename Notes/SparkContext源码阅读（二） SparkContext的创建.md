@@ -98,3 +98,111 @@ SparkStatusTracker，从名字可以看出，它是一个底层的用于追踪Sp
 
 ##### _progressBar
 
+```Scala
+_progressBar =
+  if (_conf.getBoolean("spark.ui.showConsoleProgress", true) && !log.isInfoEnabled) {
+    Some(new ConsoleProgressBar(this))
+  } else {
+    None
+  }
+```
+
+ConsoleProgressBar在控制台中显示stage的进程，它从statusTracker中获取数据
+
+##### _ui
+
+```scala
+_ui =
+  if (conf.getBoolean("spark.ui.enabled", true)) {
+    Some(SparkUI.createLiveUI(this, _conf, listenerBus, _jobProgressListener,
+      _env.securityManager, appName, startTime = startTime))
+  } else {
+    None
+  }
+_ui.foreach(_.bind())
+```
+
+创建SparkUI
+
+##### _hadoopConfiguration
+
+```scala
+_hadoopConfiguration = SparkHadoopUtil.get.newConfiguration(_conf)
+```
+
+获取Hadoop的Config
+
+##### 添加jar和file
+
+```scala
+if (jars != null) {
+  jars.foreach(addJar)
+}
+
+if (files != null) {
+  files.foreach(addFile)
+}
+```
+
+##### 设置executor的内存
+
+```scala
+_executorMemory = _conf.getOption("spark.executor.memory")
+  .orElse(Option(System.getenv("SPARK_EXECUTOR_MEMORY")))
+  .orElse(Option(System.getenv("SPARK_MEM"))
+  .map(warnSparkMem))
+  .map(Utils.memoryStringToMb)
+  .getOrElse(1024)
+```
+
+优先级，由上而下
+Spark.executor.memory：SparkConf给出的内存大小
+SPARK_EXECUTOR_MEMORY：Spark环境变量
+SPARK_MEM：Spark环境变量
+1024
+
+#####executorEnvs
+
+```scala
+for { (envKey, propKey) <- Seq(("SPARK_TESTING", "spark.testing"))
+  value <- Option(System.getenv(envKey)).orElse(Option(System.getProperty(propKey)))} {
+  executorEnvs(envKey) = value
+}
+Option(System.getenv("SPARK_PREPEND_CLASSES")).foreach { v =>
+  executorEnvs("SPARK_PREPEND_CLASSES") = v
+}
+executorEnvs("SPARK_EXECUTOR_MEMORY") = executorMemory + "m"
+executorEnvs ++= _conf.getExecutorEnv
+executorEnvs("SPARK_USER") = sparkUser
+```
+
+设置executor的环境变量
+
+##### _heartbeatReceiver
+
+```scala
+_heartbeatReceiver = env.rpcEnv.setupEndpoint(
+  HeartbeatReceiver.ENDPOINT_NAME, new HeartbeatReceiver(this))
+```
+
+在Spark中，driver和executor之间的交互用到了心跳机制。
+
+> 心跳机制是定时发送一个自定义的结构体（心跳包），让对方知道自己还“活”着，以确保连接的有效性的机制。
+
+Heartbeat是Spark内部的一种消息类型，在多个内部组件之间共享，传播执行中的任务的执行信息和活跃状态。HeartbeatReceiver在Driver端接收来自executor的心跳包，是一个线程安全的RpcEndPoint。同样在Executor端也会有HeartbeatReceiverRef，是一个RpcEndPointEnf，定时向driver发送心跳包。
+
+```scala
+val message = Heartbeat(executorId, accumUpdates.toArray, env.blockManager.blockManagerId)
+val response = heartbeatReceiverRef.askWithRetry[HeartbeatResponse](message, RpcTimeout(conf, "spark.executor.heartbeatInterval", "10s")) 
+```
+
+##### 创建并启动TaskScheduler
+
+```scala
+val (sched, ts) = SparkContext.createTaskScheduler(this, master, deployMode)
+```
+
+调用createTaskScheduler，三个参数：
+this，即SparkContext；master，master的url；deployMode，部署模式。
+返回SchedulerBackend和TaskScheduler，用来进行资源调度。TaskScheduler负责Task级别的调度，将DAGScheduler给过来的TaskSet按照指定的调度策略分发到Executor上执行，调度过程中SchedulerBackend负责提供可用资源，SchedulerBackend有多种实现，分别对接不同的资源管理系统。
+
