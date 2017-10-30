@@ -204,5 +204,147 @@ val (sched, ts) = SparkContext.createTaskScheduler(this, master, deployMode)
 
 调用createTaskScheduler，三个参数：
 this，即SparkContext；master，master的url；deployMode，部署模式。
-返回SchedulerBackend和TaskScheduler，用来进行资源调度。TaskScheduler负责Task级别的调度，将DAGScheduler给过来的TaskSet按照指定的调度策略分发到Executor上执行，调度过程中SchedulerBackend负责提供可用资源，SchedulerBackend有多种实现，分别对接不同的资源管理系统。
+返回SchedulerBackend和TaskScheduler，用来进行资源调度。TaskScheduler负责Task级别的调度，将DAGScheduler给过来的TaskSet按照指定的调度策略分发到Executor上执行；调度过程中SchedulerBackend负责提供可用资源，SchedulerBackend有多种实现，分别对接不同的资源管理系统。
+
+createTaskScheduler(sc,master,deplotMode)方法根据master的不同区分创建模式。
+
+- **local**: local
+  local模式，测试或者实验性质的本地运行模式，在local模式下，任务失败时不会重试
+
+  ```scala
+  case "local" =>
+          val scheduler = new TaskSchedulerImpl(sc, MAX_LOCAL_TASK_FAILURES, isLocal = true)
+          val backend = new LocalSchedulerBackend(sc.getConf, scheduler, 1)
+          scheduler.initialize(backend)
+          (backend, scheduler)
+  ```
+
+  TaskSchedulerImpl是TaskScheduler的实现，创建时接受三个参数，sc（当前SparkContext）、MAX_LOCAL_TASK_FAILURE（失败后的最大尝试次数）和 isLocal（是否Local）。
+  MAX_LOCAL_TASK_FAILURE的默认值是1，因此当在local模式下执行任务失败时，不会再次尝试。
+
+  运行local模式的Spark时，executor，backend和master等都运行在同一个JVM上，此时需要使用SchedulerBackend的LocalSchedulerBackend实现，它依赖于TaskSchedulerImpl，处理在单个executor上运行task。
+
+  LocalSchedulerBackend创建时接受三个参数，sparkConf，scheduler（TaskSchedulerImpl），totalCores（核的数量）。
+
+  在创建SchedulerBackend之后，执行TaskSchedulerImpl的initial方法，将创建的backend赋值给TaskScheduler中持有的backend实例；并设置调度模式（FIFO，FAIR），默认是FIFO，即是先进先出。
+
+- **LOCAL_N_REGEX**: local[N]|
+  测试或实验性质的本地运行模式，local[*]代表本台机器上的内核数，local[N]代表使用N个线程
+
+  ```scala
+  case LOCAL_N_REGEX(threads) =>
+    def localCpuCount: Int = Runtime.getRuntime.availableProcessors()
+   	val threadCount = if (threads == "*") localCpuCount else threads.toInt
+    if (threadCount <= 0) {
+      throw new SparkException(s"Asked to run locally with $threadCount threads")
+    }
+    val scheduler = new TaskSchedulerImpl(sc, MAX_LOCAL_TASK_FAILURES, isLocal = true)
+    val backend = new LocalSchedulerBackend(sc.getConf, scheduler, threadCount)
+    scheduler.initialize(backend)
+    (backend, scheduler)
+  ```
+
+  由源码可知，threads == “*”时，线程数为当前可用Processor的数量。
+
+  然后同样的过程，创建TaskScheduler和SchedulerBackend，执行TaskSchedulerImpl的initialize方法，然后返回。
+
+- **LOCAL_N_FAILURES_REX**: local[N,MaxRetries]
+
+  测试或实验性质的本地运行模式，local[*,M]，local[N,M]，M代表失败后最大重新尝试的次数
+
+  ```scala
+  case LOCAL_N_FAILURES_REGEX(threads, maxFailures) =>
+    def localCpuCount: Int = Runtime.getRuntime.availableProcessors()
+    val threadCount = if (threads == "*") localCpuCount else threads.toInt
+    val scheduler = new TaskSchedulerImpl(sc, maxFailures.toInt, isLocal = true)
+    val backend = new LocalSchedulerBackend(sc.getConf, scheduler, threadCount)
+    scheduler.initialize(backend)
+    (backend, scheduler)
+  ```
+
+  其他部分与上模式并没有什么差别。
+
+- SparkStandalone模式，SPARK_REGEX**: spark://address:port
+
+  ```scala
+  case SPARK_REGEX(sparkUrl) =>
+    val scheduler = new TaskSchedulerImpl(sc)
+    val masterUrls = sparkUrl.split(",").map("spark://" + _)
+    val backend = new StandaloneSchedulerBackend(scheduler, sc, masterUrls)
+    scheduler.initialize(backend)
+    (backend, scheduler)
+  ```
+
+  对应Spark的Standalone模式，自然SchedulerBackend选用的是StandaloneSchedulerBackend实现
+
+- **LOCAL_CLUSTER_REGEX**: local[numSlaves, coresPerSlave, memoryPerSlave]
+
+  测试或实验性质的地伪集群运行模式（单机模拟集群），会在单机启动多个进程来模拟集群下的分布式场景。
+
+  numSlaves：节点的数量，executor数量
+  coresPerSlave：每一个节点的core数
+  memoryPerSlave：每一个节点的内存大小
+
+  ```scala
+  val memoryPerSlaveInt = memoryPerSlave.toInt
+  if (sc.executorMemory > memoryPerSlaveInt) {
+    throw new SparkException(
+      "Asked to launch cluster with %d MB RAM / worker but requested %d MB/worker".format(
+        memoryPerSlaveInt, sc.executorMemory))
+  }
+  ```
+
+  每一个slave的内存大小必须大于等于sparkContext配置的executorMemory的大小。
+
+  ```scala
+  val scheduler = new TaskSchedulerImpl(sc)
+  ```
+
+  创建TaskScheduler。
+
+  ```scala
+  val localCluster = new LocalSparkCluster(
+            numSlaves.toInt, coresPerSlave.toInt, memoryPerSlaveInt, sc.conf)
+  val masterUrls = localCluster.start()
+  ```
+
+  根据给出的节点数量，每一个节点的内核数，每一个节点的内存大小创建一个LocalSparkCluster，启动它，并获取其masterUrl。
+
+  ```scala
+  val backend = new StandaloneSchedulerBackend(scheduler, sc, masterUrls)
+  scheduler.initialize(backend)
+  ```
+
+  根据获取到masterUrl创建SchedulerBackend的StandaloneSchedulerBackend实现，并初始化TaskScheduler。
+
+  ```scala
+  backend.shutdownCallback = (backend: StandaloneSchedulerBackend) => {
+            localCluster.stop()
+          }
+  ```
+
+  为backend注册回调方法，当backend关闭时，关闭localCluster。
+
+- **masterUrl**: masterUrl
+
+  ```scala
+  val cm = getClusterManager(masterUrl) match {
+    case Some(clusterMgr) => clusterMgr
+    case None => throw new SparkException("Could not parse Master URL: '" + master + "'")
+  }
+  ```
+
+  首先根据masterUrl获取ClusterManager，
+
+  ```scala
+  val scheduler = cm.createTaskScheduler(sc, masterUrl)
+  val backend = cm.createSchedulerBackend(sc, masterUrl, scheduler)
+  cm.initialize(scheduler, backend)
+  ```
+
+  然后根据得到的ClusterManager，即cm，来创建TaskScheduler和SchedulerBackend。
+
+  ​
+
+##### _dagScheduler
 
