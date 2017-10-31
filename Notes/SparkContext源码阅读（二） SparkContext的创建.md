@@ -344,7 +344,263 @@ createTaskScheduler(sc,master,deplotMode)方法根据master的不同区分创建
 
   然后根据得到的ClusterManager，即cm，来创建TaskScheduler和SchedulerBackend。
 
-  ​
-
 ##### _dagScheduler
 
+```scala
+_dagScheduler = new DAGScheduler(this)
+```
+
+创建DAGScheduler，DAGScheduler负责Stage级的调度，主要将DAG切分成若干Stages，并将每个Stage打包成TaskSet交给TaskScheduler调度。
+
+```scala
+_heartbeatReceiver.ask[Boolean](TaskSchedulerIsSet)
+```
+
+确认TaskScheduler是否已经被创建了。
+
+##### 启动TaskScheduler
+
+```scala
+_taskScheduler.start()
+```
+
+调用TaskScheduler的start()方法，在start()的方法体中，
+
+```scala
+backend.start()
+```
+
+启动了TaskScheduler的持有的SchedulerBackend实例。
+
+```scala
+if (!isLocal && conf.getBoolean("spark.speculation", false)) {
+  logInfo("Starting speculative execution thread")
+  speculationScheduler.scheduleWithFixedDelay(new Runnable {
+    override def run(): Unit = Utils.tryOrStopSparkContext(sc) {
+      checkSpeculatableTasks()
+    }
+  }, SPECULATION_INTERVAL_MS, SPECULATION_INTERVAL_MS, TimeUnit.MILLISECONDS)
+}
+```
+
+首先介绍一下Speculatable Task机制概念
+
+> 大数据计算平台中，如果一个Task A运行时间过长，而且此时没有别的task可以在合适的locality级别上调度，那么就再调度一次这个task A去另一台机器上执行，这时集群中就有两个一样的task A在运行，最终她们俩谁先成功返回就认为Task A已经成功了，另一个运行的Task A就没什么用了。
+
+spark.speculation，默认为false，当设置为true时，将会推断任务的执行情况，当一个或多个任务在stage里执行较慢时，这些任务会被重新发布。
+speculationScheduler初始化调用ThreadUtils的newDaemonSingleThreadScheduledExecutor，返回一个ScheduledThreadPoolExecutor，作为定时和周期执行任务的线程池。这个线程池按照指定的delay周期执行指定的Runable任务，第一次执行任务的时间点为SPECULATION_INTERVAL_MS，随后按照SPECULATION_INTERVAL_MS的值以此类推，周期性的检查当前active的Job中有无speculatable的task，如果有，则重新发布。
+
+##### _applicationId && _applicationAttemptId
+
+```Scala
+_applicationId = _taskScheduler.applicationId()
+_applicationAttemptId = taskScheduler.applicationAttemptId()
+_conf.set("spark.app.id", _applicationId)
+```
+
+applicationId是“spark-application-”/"local-" + System.currentTimeMillis，
+
+```scala
+def applicationAttemptId(): Option[String] = None
+```
+
+关于applicationAttemptId为None。
+
+##### 初始化BlockManager
+
+```scala
+_env.blockManager.initialize(_applicationId)
+```
+
+BlockManager是一个嵌入在spark中的key-value型分布式存储系统。BlockManager在一个spark应用中作为一个本地缓存运行在所有的节点上，BlockManager对本地和远程提供一致的get和set数据块接口。
+
+##### MetricsSystem
+
+```scala
+_env.metricsSystem.start()
+_env.metricsSystem.getServletHandlers.foreach(handler => ui.foreach(_.attachHandler(handler)))
+```
+
+MetricsSystem是为了衡量系统的各项指标的度量系统。
+
+##### _eventLogger
+
+```scala
+_eventLogger =
+  if (isEventLogEnabled) {
+    val logger =
+      new EventLoggingListener(_applicationId, _applicationAttemptId, _eventLogDir.get,
+        _conf, _hadoopConfiguration)
+    logger.start()
+    listenerBus.addListener(logger)
+    Some(logger)
+  } else {
+    None
+  }
+```
+
+_eventLogger是SparkContext持有的EventLoggingListener实例，创建并在listenerBus中注册。
+
+##### _executorAllocationManager
+
+```scala
+val dynamicAllocationEnabled = Utils.isDynamicAllocationEnabled(_conf)
+_executorAllocationManager =
+  if (dynamicAllocationEnabled) {
+    schedulerBackend match {
+      case b: ExecutorAllocationClient =>
+        Some(new ExecutorAllocationManager(
+          schedulerBackend.asInstanceOf[ExecutorAllocationClient], listenerBus, _conf))
+      case _ =>
+        None
+    }
+  } else {
+    None
+  }
+_executorAllocationManager.foreach(_.start())
+
+```
+
+当启用动态Executor申请时，在SparkContext创建过程中会实例化ExecutorAllocationManager，用于控制动态Executor申请逻辑，动态Executor申请是一种基于当前Task负载压力实现动态增删Executor的机制。
+
+##### _cleaner
+
+```scala
+_cleaner =
+  if (_conf.getBoolean("spark.cleaner.referenceTracking", true)) {
+    Some(new ContextCleaner(this))
+  } else {
+    None
+  }
+_cleaner.foreach(_.start())
+```
+
+ContextCleaner用于清理那些超出应用范围的RDD、ShuffleDependency和Broadcast对象，默认创建。
+
+##### setupAndStartListenerBus()
+
+```scala
+val listenerClassNames: Seq[String] =
+  conf.get("spark.extraListeners", "").split(',').map(_.trim).filter(_ != "")
+for (className <- listenerClassNames) {
+  val constructors = {
+    val listenerClass = Utils.classForName(className)
+    listenerClass
+        .getConstructors
+        .asInstanceOf[Array[Constructor[_ <: SparkListenerInterface]]]
+  }
+  val constructorTakingSparkConf = constructors.find { c =>
+    c.getParameterTypes.sameElements(Array(classOf[SparkConf]))
+  }
+  lazy val zeroArgumentConstructor = constructors.find { c =>
+    c.getParameterTypes.isEmpty
+  }
+  val listener: SparkListenerInterface = {
+          if (constructorTakingSparkConf.isDefined) {
+            constructorTakingSparkConf.get.newInstance(conf)
+          } else if (zeroArgumentConstructor.isDefined) {
+            zeroArgumentConstructor.get.newInstance()
+          } else {
+            throw new SparkException(
+              s"$className did not have a zero-argument constructor or a" +
+                " single-argument constructor that accepts SparkConf. Note: if the class is" +
+                " defined inside of another Scala class, then its constructors may accept an" +
+                " implicit parameter that references the enclosing class; in this case, you must" +
+                " define the listener as a top-level class in order to prevent this extra" +
+                " parameter from breaking Spark's ability to find a valid constructor.")
+          }
+        }
+        listenerBus.addListener(listener)
+        logInfo(s"Registered listener $className")
+      }
+```
+
+这个方法将spark.extraListeners配置项中的listener，用反射的方式获取其构造方法（带参数或者 不带参数），然后调用创建实例，并注册到listenerBus中去。
+
+```scala
+listenerBus.start()
+_listenerBusStarted = true
+```
+
+然后启动listenerBus，并将_listenerBusStarted设为true。
+
+##### postEnvironmentUpdate()
+
+```scala
+private def postEnvironmentUpdate() {
+  if (taskScheduler != null) {
+    val schedulingMode = getSchedulingMode.toString
+    val addedJarPaths = addedJars.keys.toSeq
+    val addedFilePaths = addedFiles.keys.toSeq
+    val environmentDetails = SparkEnv.environmentDetails(conf, schedulingMode, addedJarPaths,
+      addedFilePaths)
+    val environmentUpdate = SparkListenerEnvironmentUpdate(environmentDetails)
+    listenerBus.post(environmentUpdate)
+  }
+}
+```
+
+通过调用SparkEnv的方法environmentDetails最终影响环境的JVM参数、Spark 属性、系统属性、classPath等，
+将得到的environmentDetails包装成SparkListenerEnvironmentUpdate事件，post到listenerBus，此事件被EnvironmentListener监听，最终影响到EnvironmentPage中的内容。
+
+##### postApplicationStart()
+
+```scala
+listenerBus.post(SparkListenerApplicationStart(appName, Some(applicationId),
+  startTime, sparkUser, applicationAttemptId, schedulerBackend.getDriverLogUrls))
+```
+
+此方法向listenerBus post一个SparkListenerApplicationStart事件。
+
+##### postStartHook()
+
+```scala
+_taskScheduler.postStartHook()
+```
+
+在postStartHook()的方法体中调用了waitBackendReady()方法。
+
+```scala
+if (backend.isReady) {
+  return
+}
+while (!backend.isReady) {
+  if (sc.stopped.get) {
+    throw new IllegalStateException("Spark context stopped while waiting for backend")
+  }
+  synchronized {
+    this.wait(100)
+  }
+}
+```
+
+周期性的去检查backend，即TaskScheduler持有的SchedulerBackend实例是否Ready。
+如果已经ready，则直接返回；如果尚未Ready，则首先检查SparkContext的状态，如果正常，则等待100ms，再次检查。
+wait()方法使得当前线程进入到和TaskScheduler对象相关的一个等待池中，同时释放了该对象的锁。wait()方法必须放在synchronized块中，这是因为wait和notify之间的竞态条件。
+
+> 竞态条件，从多进程通信的角度来讲，是指两个或多个进程对共享的数据进行读或写的操作时，最终的结果取决于这些进程的执行顺序。
+> 例如，生产者线程向缓冲区中写入数据，消费者线程从缓冲区中读取数据，消费者线程需要等待直到生产者线程完成一次写入操作，生产者线程需要等待消费者线程完成一次读取操作。假设wait()，notify()，notifyAll()方法不需要加锁就能够被调用。此时消费者线程调用wait()正在进入状态变量的等待队列(可能还未进入)。在同一时刻，生产者线程调用notify()方法打算向消费者线程通知状态改变。那么此时消费者线程将错过这个通知并一直阻塞。因此，对象的wait()，notify()，notifyAll()方法必须在该对象的同步方法或者同步代码块中被互斥地调用。
+
+##### 为测量系统注册Source
+
+```scala
+_env.metricsSystem.registerSource(_dagScheduler.metricsSource)
+_env.metricsSystem.registerSource(new BlockManagerSource(_env.blockManager))
+_executorAllocationManager.foreach { e =>
+  _env.metricsSystem.registerSource(e.executorAllocationManagerSource)
+}
+```
+
+为测量系统注册Source，即数据来源。
+
+##### _shutdownHookRef
+
+```scala
+_shutdownHookRef = ShutdownHookManager.addShutdownHook(
+  ShutdownHookManager.SPARK_CONTEXT_SHUTDOWN_PRIORITY) { () =>
+  logInfo("Invoking stop() from shutdown hook")
+  stop()
+}
+```
+
+创建SparkContext的关闭钩子，用于对上述对象进行清理。

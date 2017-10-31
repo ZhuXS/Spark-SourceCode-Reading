@@ -2790,7 +2790,7 @@ object SparkContext extends Logging {
 private object SparkMasterRegex {
   // Regular expression used for local[N] and local[*] master formats
   val LOCAL_N_REGEX = """local\[([0-9]+|\*)\]""".r
-  // Regular expression for local[N, l], used in tests with failing tasks
+  // Regular expression for local[N, maxRetries], used in tests with failing tasks
   val LOCAL_N_FAILURES_REGEX = """local\[([0-9]+|\*)\s*,\s*([0-9]+)\]""".r
   // Regular expression for simulating a Spark cluster of [N, cores, memory] locally
   val LOCAL_CLUSTER_REGEX = """local-cluster\[\s*([0-9]+)\s*,\s*([0-9]+)\s*,\s*([0-9]+)\s*]""".r
