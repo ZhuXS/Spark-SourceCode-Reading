@@ -155,6 +155,9 @@ def getOrCreate(): SparkSession = synchronized {  //spark session的创建
 如果没有则去检查有无Global Default 的SparkSession，如果有则返回该Session；
 没有则创建一个新的Session，并assign 给defaultSession。
 
+SparkSession依赖于SparkContext，因此在创建SparkSession的时候，必须先要创建SparkContext。
+SparkContext的创建可见[SparkContext源码阅读（二）SparkContext的创建]
+
 需要注意的是，在该方法中，一共出现了两次Synchronized，一次标注了getOrCreate的方法体，一次标注了获取或创建DefaultSession的代码块。
 
 首先说第一个synchronized，
