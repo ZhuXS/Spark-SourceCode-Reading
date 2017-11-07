@@ -11,9 +11,10 @@ private[spark] val listenerBus = new LiveListenerBus(this)
 - 消息缓存
 - 消息分发
 
+是Spark的监听器总线，需要发送事件消息的组件将发生的事件消息提交到总线，然后总线将事件消息转发给一个个注册在它上面的监听器，最后监听器对事件进行响应。
 LiveListenerBus继承自SparkListenerBus，SparkListenerBus继承自ListenerBus。
 
-## ListenerBus源码阅读
+## ListenerBus
 
 > An event bus which posts events to its listeners
 
@@ -62,7 +63,47 @@ final def removeListener(listener: L): Unit = {
 
 ##### protected def doPostEvent(listener: L, event: E): Unit
 
-
+该方法是一个抽象方法，其具体实现要由继承自ListenerBus的类负责，用于将一个event推送到一个特定的listener。
 
 ##### def postToAll(event: E): Unit
 
+```scala
+def postToAll(event: E): Unit = {
+  val iter = listeners.iterator
+  while (iter.hasNext) {
+    val listener = iter.next()
+    try {
+      doPostEvent(listener, event)
+    } catch {
+      case NonFatal(e) =>
+        logError(s"Listener ${Utils.getFormattedClassName(listener)} threw an exception", e)
+    }
+  }
+}
+```
+
+将事件推送给所有已经注册到总线的监听器。用迭代器遍历listener，调用doPostEvent(listener: L, event: E)，逐个将消息推送。
+
+## SparkListenerBus
+
+SparkListenerBus集成了ListenerBus
+
+```scala
+private[spark] trait SparkListenerBus
+  extends ListenerBus[SparkListenerInterface, SparkListenerEvent]
+```
+
+在继承ListenerBus的时候指定了具体的类型参数，Listener类型为SparkListenerInterface，Event类型为SparkListenerEvent。
+
+SparkListenerBus同时实现了doPostEvent()方法。
+
+SparkListenerEvent是一个特征类，它衍生了很多case class，以标示不同的事件模式。这些事件模式会在doPostEvent的时候被识别出来，以触发不同的事件。
+
+## LiveListenerBus
+
+LiveListenerBus继承自SparkLiveListenerBus。
+
+LiveListenerBus有两个延迟初始化的变量
+
+- 事件队列的大小，从当前SparkContext持有的SparkConf中读出，不得小于0
+- 事件队列，用于存储SparkListenerEvent的LinkedBlockingQueue
