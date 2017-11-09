@@ -99,6 +99,9 @@ SparkListenerBus同时实现了doPostEvent()方法。
 
 SparkListenerEvent是一个特征类，它衍生了很多case class，以标示不同的事件模式。这些事件模式会在doPostEvent的时候被识别出来，以触发不同的事件。
 
+SparkListenerInterface是一个特征类，所有的listener都继承自SparkListenerInterface。
+SparkLIstenerInterface中定义了listener在监听到事件后所触发的方法，这些方法都是抽象方法。
+
 ## LiveListenerBus
 
 LiveListenerBus继承自SparkLiveListenerBus。
