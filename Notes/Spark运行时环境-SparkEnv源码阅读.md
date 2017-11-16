@@ -88,3 +88,20 @@ val rpcEnv = RpcEnv.create(systemName, bindAddress, advertiseAddress, port, conf
 
 创建Rpc
 
+```scala
+val rpcEnv = RpcEnv.create(systemName, bindAddress, advertiseAddress, port, conf,
+  securityManager, clientMode = !isDriver)
+```
+
+更新Spark driver和execuotr端口的配置信息。
+
+```scala
+if (isDriver) {
+  conf.set("spark.driver.port", rpcEnv.address.port.toString)
+} else if (rpcEnv.address != null) {
+  conf.set("spark.executor.port", rpcEnv.address.port.toString)
+  logInfo(s"Setting spark.executor.port to: ${rpcEnv.address.port.toString}")
+}
+```
+
+从conf中获取serializer的类名（spark.serializer），通过反射方式，创建Serializer。如果没有进行配置，默认值为org.apache.spark.serializer.JavaSerializer。
