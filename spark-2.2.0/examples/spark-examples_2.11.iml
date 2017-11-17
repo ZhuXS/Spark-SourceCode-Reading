@@ -11,6 +11,19 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../assembly/target/scala-2.11/jars" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/../assembly/target/scala-2.11/jars" />
+        </SOURCES>
+        <jarDirectory url="file://$MODULE_DIR$/../assembly/target/scala-2.11/jars" recursive="false" />
+        <jarDirectory url="file://$MODULE_DIR$/../assembly/target/scala-2.11/jars" recursive="false" type="SOURCES" />
+      </library>
+    </orderEntry>
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.spark-project.spark:unused:1.0.0" level="project" />
     <orderEntry type="module" module-name="spark-core_2.11" scope="PROVIDED" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.avro:avro:1.7.7" level="project" />
@@ -239,18 +252,5 @@
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.12" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-core:1.3" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: com.novocode:junit-interface:0.11" level="project" />
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/../assembly/target/scala-2.11/jars" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="file://$MODULE_DIR$/../assembly/target/scala-2.11/jars" />
-        </SOURCES>
-        <jarDirectory url="file://$MODULE_DIR$/../assembly/target/scala-2.11/jars" recursive="false" />
-        <jarDirectory url="file://$MODULE_DIR$/../assembly/target/scala-2.11/jars" recursive="false" type="SOURCES" />
-      </library>
-    </orderEntry>
   </component>
 </module>
