@@ -86,7 +86,7 @@ def postToAll(event: E): Unit = {
 
 ## SparkListenerBus
 
-SparkListenerBus集成了ListenerBus
+SparkListenerBus继承了ListenerBus
 
 ```scala
 private[spark] trait SparkListenerBus

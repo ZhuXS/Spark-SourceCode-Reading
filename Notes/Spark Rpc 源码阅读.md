@@ -20,7 +20,7 @@ new NettyRpcEnvFactory().create(config)
 private[spark] val defaultLookupTimeout = RpcUtils.lookupRpcTimeout(conf)
  ```
 
-优先级 spark.rpc.askTimeout > spark.network.timeout > 120s
+优先级 spark.rpc.askTimeout > spark.network.timeout > 120
 
  ##### 返回相应RpcEndpoint的RpcEndpointRef
 
