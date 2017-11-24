@@ -143,5 +143,127 @@ def asyncSetupEndpointRefByURI(uri: String): Future[RpcEndpointRef] = {
 
 根据给定的uri异步的去注册一个RpcEndpoint。
 首先根据给定的uri封装成为一个RpcEndpointAddress，作为创建RpcEndpointRef的参数。
+之后创建一个RpcEndpointVerifier的RpcEndpointRef，去检查是否有相应的endpoint，如果有则返回其endpointRef，没有则抛出异常。
 
+##### override def stop(endpointRef: RpcEndpointRef): Unit
+
+```scala
+override def stop(endpointRef: RpcEndpointRef): Unit = {
+  require(endpointRef.isInstanceOf[NettyRpcEndpointRef])
+  dispatcher.stop(endpointRef)
+}
+```
+
+停止某个endpointRef的工作
+
+##### private def postToOutbox(receiver: NettyRpcEndpointRef, message: OutboxMessage): Unit
+
+```scala
+private def postToOutbox(receiver: NettyRpcEndpointRef, message: OutboxMessage): Unit = {
+  if (receiver.client != null) {
+    message.sendWith(receiver.client)
+  } else {
+    require(receiver.address != null,
+    val targetOutbox = {
+      val outbox = outboxes.get(receiver.address)
+      if (outbox == null) {
+        val newOutbox = new Outbox(this, receiver.address)
+        val oldOutbox = outboxes.putIfAbsent(receiver.address, newOutbox)
+        if (oldOutbox == null) {
+          newOutbox
+        } else {
+          oldOutbox
+        }
+      } else {
+        outbox
+      }
+    }
+    if (stopped.get) {
+      outboxes.remove(receiver.address)
+      targetOutbox.stop()
+    } else {
+      targetOutbox.send(message)
+    }
+  }
+}
+```
+
+将Message Post到outbox。
+如果receiver已经注册了TransportClient，直接发送message。如果没有，则发送到相应的outbox。
+
+##### private[netty] def send(message: RequestMessage): Unit
+
+```scala
+private[netty] def send(message: RequestMessage): Unit = {
+  val remoteAddr = message.receiver.address
+  if (remoteAddr == address) {
+    try {
+      dispatcher.postOneWayMessage(message)
+    } catch {
+      case e: RpcEnvStoppedException => logWarning(e.getMessage)
+    }
+  } else {
+    postToOutbox(message.receiver, OneWayOutboxMessage(message.serialize(this)))
+  }
+}
+```
+
+区分Local的endPoint还是remote的endPoint。
+
+##### private[netty] def ask [T: ClassTag] (message: RequestMessage, timeout: RpcTimeout): Future[T]
+
+```scala
+private[netty] def ask[T: ClassTag](message: RequestMessage, timeout: RpcTimeout): Future[T] = {
+  val promise = Promise[Any]()
+  val remoteAddr = message.receiver.address
+  
+  def onFailure(e: Throwable): Unit = {
+    if (!promise.tryFailure(e)) {
+      logWarning(s"Ignored failure: $e")
+    }
+  }
+
+  def onSuccess(reply: Any): Unit = reply match {
+    case RpcFailure(e) => onFailure(e)
+    case rpcReply =>
+      if (!promise.trySuccess(rpcReply)) {
+        logWarning(s"Ignored message: $reply")
+      }
+  }
+
+  try {
+    if (remoteAddr == address) {
+      val p = Promise[Any]()
+      p.future.onComplete {
+        case Success(response) => onSuccess(response)
+        case Failure(e) => onFailure(e)
+      }(ThreadUtils.sameThread)
+      dispatcher.postLocalMessage(message, p)
+    } else {
+      val rpcMessage = RpcOutboxMessage(message.serialize(this),
+        onFailure,
+        (client, response) => onSuccess(deserialize[Any](client, response)))
+      postToOutbox(message.receiver, rpcMessage)
+      promise.future.onFailure {
+        case _: TimeoutException => rpcMessage.onTimeout()
+        case _ =>
+      }(ThreadUtils.sameThread)
+    }
+
+    val timeoutCancelable = timeoutScheduler.schedule(new Runnable {
+      override def run(): Unit = {
+        onFailure(new TimeoutException(s"Cannot receive any reply from ${remoteAddr} " +
+          s"in ${timeout.duration}"))
+      }
+    }, timeout.duration.toNanos, TimeUnit.NANOSECONDS)
+    promise.future.onComplete { v =>
+      timeoutCancelable.cancel(true)
+    }(ThreadUtils.sameThread)
+  } catch {
+    case NonFatal(e) =>
+      onFailure(e)
+  }
+  promise.future.mapTo[T].recover(timeout.addMessageIfTimeout)(ThreadUtils.sameThread)
+}
+```
 
