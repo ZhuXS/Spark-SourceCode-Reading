@@ -338,7 +338,6 @@ private[netty] class NettyRpcEnv(
         source.close()
         throw e
     }
-
     source
   }
 

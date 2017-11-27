@@ -267,3 +267,102 @@ private[netty] def ask[T: ClassTag](message: RequestMessage, timeout: RpcTimeout
 }
 ```
 
+在方法体中，首先定义了两个内部的回调方法，分别用于成功和失败情况下的回调。
+如果消息的目的地在本地，则直接调用dispatcher的postLocalMessage方法；如果目的地在远端，则构造一个RpcOutboxMessage，其构造函数中包括了content以及Failure和Success下的回调方法，然后调用postToOutbox方法，将消息发送到ref端的outbox。
+将结果打包成为T类型，包装在一个新的Future中返回。
+
+##### private def downloadClient(host: String, port: Int): TransportClient
+
+```scala
+private def downloadClient(host: String, port: Int): TransportClient = {
+  if (fileDownloadFactory == null) synchronized {
+    if (fileDownloadFactory == null) {
+      val module = "files"
+      val prefix = "spark.rpc.io."
+      val clone = conf.clone()
+      conf.getAll.foreach { case (key, value) =>
+        if (key.startsWith(prefix)) {
+          val opt = key.substring(prefix.length())
+          clone.setIfMissing(s"spark.$module.io.$opt", value)
+        }
+      }
+
+      val ioThreads = clone.getInt("spark.files.io.threads", 1)
+      val downloadConf = SparkTransportConf.fromSparkConf(clone, module, ioThreads)
+      val downloadContext = new TransportContext(downloadConf, new NoOpRpcHandler(), true)
+      fileDownloadFactory = downloadContext.createClientFactory(createClientBootstraps())
+    }
+  }
+  fileDownloadFactory.createClient(host, port)
+}
+```
+
+创建一个用于文件下载的TransportClient
+
+##### override def openChannel(uri: String): ReadableByteChannel
+
+```scala
+override def openChannel(uri: String): ReadableByteChannel = {
+  val parsedUri = new URI(uri)
+  require(parsedUri.getHost() != null, "Host name must be defined.")
+  require(parsedUri.getPort() > 0, "Port must be defined.")
+  require(parsedUri.getPath() != null && parsedUri.getPath().nonEmpty, "Path must be defined.")
+
+  val pipe = Pipe.open()
+  val source = new FileDownloadChannel(pipe.source())
+  try {
+    val client = downloadClient(parsedUri.getHost(), parsedUri.getPort())
+    val callback = new FileDownloadCallback(pipe.sink(), source, client)
+    client.stream(parsedUri.getPath(), callback)
+  } catch {
+    case e: Exception =>
+      pipe.sink().close()
+      source.close()
+      throw e
+  }
+
+  source
+}
+```
+
+根据给定的uri打开一个chanel，通过Java的NIO来实现。
+创建一个FileDownloadChannel（继承自ReadableByteChannel），作为数据输出的通道。然后创建一个transportClient，从其stream中获得数据，输出到source。
+该过程是异步的。
+
+最后返回source。
+
+##### NettyRpcEnvFactory
+
+```scala
+private[rpc] class NettyRpcEnvFactory extends RpcEnvFactory with Logging {
+
+  def create(config: RpcEnvConfig): RpcEnv = {
+    val sparkConf = config.conf
+    val javaSerializerInstance =
+      new JavaSerializer(sparkConf).newInstance().asInstanceOf[JavaSerializerInstance]
+    val nettyEnv =
+      new NettyRpcEnv(sparkConf, javaSerializerInstance, config.advertiseAddress,
+        config.securityManager)
+    if (!config.clientMode) {
+      val startNettyRpcEnv: Int => (NettyRpcEnv, Int) = { actualPort =>
+        nettyEnv.startServer(config.bindAddress, actualPort)
+        (nettyEnv, nettyEnv.address.port)
+      }
+      try {
+        Utils.startServiceOnPort(config.port, startNettyRpcEnv, sparkConf, config.name)._1
+      } catch {
+        case NonFatal(e) =>
+          nettyEnv.shutdown()
+          throw e
+      }
+    }
+    nettyEnv
+  }
+}
+```
+
+RpcEnv的创建必须通过RpcEnvFactory实现。
+创建一个NettyRpcEnv，并调用其startServer()方法。
+
+
+
