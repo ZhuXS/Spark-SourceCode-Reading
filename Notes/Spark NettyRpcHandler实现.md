@@ -28,6 +28,8 @@ private def internalReceive(client: TransportClient, message: ByteBuffer): Reque
 }
 ```
 
+得到发送者的地址即TransportClient的地址，将其封装成为RpcAddress，进而打包成为一个RequestMessage返回。
+
 ##### recieve方法
 
 ```scala
@@ -40,4 +42,15 @@ override def receive(
 }
 ```
 
-有回调函数的版本。
+有回调函数的版本，将消息交给dispatcher处理。
+
+```scala
+override def receive(
+    client: TransportClient,
+    message: ByteBuffer): Unit = {
+  val messageToDispatch = internalReceive(client, message)
+  dispatcher.postOneWayMessage(messageToDispatch)
+}
+```
+
+没有回调函数的版本。
