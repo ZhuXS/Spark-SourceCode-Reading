@@ -146,3 +146,43 @@ OnStart，调用endpoint的start()方法，并将enableConcurrent设为true；On
 **第三类：**RemoteProcessConnected、RemoteProcessDisconnected和RemoteProcessConnectionError。和网络、连接相关，分别触发相应的方法。
 
 如果处理过Onstop事件，或者是存储message的list为空，即没有message需要被处理，则return；否则则取出一个message，继续循环。
+
+##### post
+
+```Scala
+def post(message: InboxMessage): Unit = inbox.synchronized {
+  if (stopped) {
+    onDrop(message)
+  } else {
+    messages.add(message)
+    false
+  }
+}
+```
+
+将message添加到存储message的list。
+如果endpointRef已经停止，则抛弃这个message。
+
+##### stop
+
+```scala
+def stop(): Unit = inbox.synchronized {
+  if (!stopped) {
+    enableConcurrent = false
+    stopped = true
+    messages.add(OnStop)
+  }
+}
+```
+
+inbox的stop方法，修改两个flag成员变量，并向messages中增加OnStop消息。
+
+##### OnDrop
+
+```scala
+protected def onDrop(message: InboxMessage): Unit = {
+  logWarning(s"Drop $message because $endpointRef is stopped")
+}
+```
+
+在inbox丢弃事务时触发。

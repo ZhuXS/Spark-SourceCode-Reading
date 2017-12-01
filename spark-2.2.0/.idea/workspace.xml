@@ -41,7 +41,7 @@
       <file leaf-file-name="NettyRpcEnv.scala" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/rpc/netty/NettyRpcEnv.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-216">
+            <state relative-caret-position="270">
               <caret line="55" column="58" lean-forward="false" selection-start-line="55" selection-start-column="58" selection-end-line="55" selection-end-column="58" />
               <folding />
             </state>
@@ -64,8 +64,8 @@
       <file leaf-file-name="Dispatcher.scala" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/rpc/netty/Dispatcher.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1033">
-              <caret line="41" column="23" lean-forward="true" selection-start-line="41" selection-start-column="23" selection-end-line="41" selection-end-column="23" />
+            <state relative-caret-position="225">
+              <caret line="41" column="23" lean-forward="false" selection-start-line="41" selection-start-column="23" selection-end-line="41" selection-end-column="23" />
               <folding />
             </state>
           </provider>
@@ -84,12 +84,10 @@
       <file leaf-file-name="Inbox.scala" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/rpc/netty/Inbox.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="188">
-              <caret line="166" column="10" lean-forward="false" selection-start-line="166" selection-start-column="6" selection-end-line="166" selection-end-column="10" />
+            <state relative-caret-position="589">
+              <caret line="198" column="3" lean-forward="true" selection-start-line="198" selection-start-column="3" selection-end-line="198" selection-end-column="3" />
               <folding>
                 <element signature="e#838#882#0" expanded="true" />
-                <element signature="e#3067#3282#0" expanded="false" />
-                <element signature="e#3329#5178#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -98,7 +96,7 @@
       <file leaf-file-name="RpcEndpoint.scala" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/rpc/RpcEndpoint.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="320">
+            <state relative-caret-position="915">
               <caret line="76" column="6" lean-forward="false" selection-start-line="76" selection-start-column="6" selection-end-line="76" selection-end-column="6" />
               <folding />
             </state>
@@ -108,7 +106,7 @@
       <file leaf-file-name="Worker.scala" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/deploy/worker/Worker.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
+            <state relative-caret-position="8325">
               <caret line="591" column="27" lean-forward="false" selection-start-line="591" selection-start-column="9" selection-end-line="591" selection-end-column="27" />
               <folding />
             </state>
@@ -118,7 +116,7 @@
       <file leaf-file-name="InboxSuite.scala" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/src/test/scala/org/apache/spark/rpc/netty/InboxSuite.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="308">
+            <state relative-caret-position="780">
               <caret line="73" column="20" lean-forward="false" selection-start-line="73" selection-start-column="20" selection-end-line="73" selection-end-column="20" />
               <folding />
             </state>
@@ -952,11 +950,13 @@
       <workItem from="1511836250382" duration="5705000" />
       <workItem from="1511933296420" duration="12709000" />
       <workItem from="1512009294591" duration="11670000" />
+      <workItem from="1512094863781" duration="599000" />
+      <workItem from="1512110405882" duration="1166000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="255221000" />
+    <option name="totallyTimeSpent" value="256986000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
@@ -975,7 +975,7 @@
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2899878" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32967034" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25091577" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25702077" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24969475" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -1246,7 +1246,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
           <caret line="45" column="13" lean-forward="false" selection-start-line="45" selection-start-column="13" selection-end-line="45" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1317,7 +1316,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="308">
           <caret line="124" column="25" lean-forward="false" selection-start-line="124" selection-start-column="25" selection-end-line="124" selection-end-column="25" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1325,7 +1323,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="495">
           <caret line="39" column="24" lean-forward="false" selection-start-line="39" selection-start-column="24" selection-end-line="39" selection-end-column="24" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1340,7 +1337,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
           <caret line="25" column="17" lean-forward="false" selection-start-line="25" selection-start-column="17" selection-end-line="25" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1348,11 +1344,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="690">
           <caret line="85" column="17" lean-forward="false" selection-start-line="85" selection-start-column="17" selection-end-line="85" selection-end-column="17" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#3728#3729#0" expanded="false" />
-            <element signature="e#3752#3753#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1360,18 +1351,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
           <caret line="36" column="22" lean-forward="false" selection-start-line="36" selection-start-column="22" selection-end-line="36" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/common/network-common/src/main/java/org/apache/spark/network/TransportContext.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="630">
-          <caret line="79" column="9" lean-forward="false" selection-start-line="79" selection-start-column="9" selection-end-line="79" selection-end-column="9" />
-          <folding>
-            <element signature="e#4052#4053#0" expanded="true" />
-            <element signature="e#4091#4092#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1404,17 +1383,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_131.jdk/Contents/Home/src.zip!/java/util/concurrent/ConcurrentMap.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1680">
-          <caret line="149" column="7" lean-forward="false" selection-start-line="149" selection-start-column="7" selection-end-line="149" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/rpc/netty/NettyRpcEnv.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-216">
+        <state relative-caret-position="270">
           <caret line="55" column="58" lean-forward="false" selection-start-line="55" selection-start-column="58" selection-end-line="55" selection-end-column="58" />
           <folding />
         </state>
@@ -1422,7 +1393,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/core/src/test/scala/org/apache/spark/rpc/netty/InboxSuite.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
+        <state relative-caret-position="780">
           <caret line="73" column="20" lean-forward="false" selection-start-line="73" selection-start-column="20" selection-end-line="73" selection-end-column="20" />
           <folding />
         </state>
@@ -1430,7 +1401,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/rpc/RpcEndpoint.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
+        <state relative-caret-position="915">
           <caret line="76" column="6" lean-forward="false" selection-start-line="76" selection-start-column="6" selection-end-line="76" selection-end-column="6" />
           <folding />
         </state>
@@ -1438,7 +1409,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/deploy/worker/Worker.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
+        <state relative-caret-position="8325">
           <caret line="591" column="27" lean-forward="false" selection-start-line="591" selection-start-column="9" selection-end-line="591" selection-end-column="27" />
           <folding />
         </state>
@@ -1446,8 +1417,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/rpc/netty/Dispatcher.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1033">
-          <caret line="41" column="23" lean-forward="true" selection-start-line="41" selection-start-column="23" selection-end-line="41" selection-end-column="23" />
+        <state relative-caret-position="225">
+          <caret line="41" column="23" lean-forward="false" selection-start-line="41" selection-start-column="23" selection-end-line="41" selection-end-column="23" />
           <folding />
         </state>
       </provider>
@@ -1456,18 +1427,34 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1725">
           <caret line="121" column="6" lean-forward="false" selection-start-line="121" selection-start-column="6" selection-end-line="121" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_131.jdk/Contents/Home/src.zip!/java/util/concurrent/ConcurrentMap.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1680">
+          <caret line="149" column="7" lean-forward="false" selection-start-line="149" selection-start-column="7" selection-end-line="149" selection-end-column="7" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common/network-common/src/main/java/org/apache/spark/network/TransportContext.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="630">
+          <caret line="79" column="9" lean-forward="false" selection-start-line="79" selection-start-column="9" selection-end-line="79" selection-end-column="9" />
+          <folding>
+            <element signature="e#4052#4053#0" expanded="true" />
+            <element signature="e#4091#4092#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/rpc/netty/Inbox.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="188">
-          <caret line="166" column="10" lean-forward="false" selection-start-line="166" selection-start-column="6" selection-end-line="166" selection-end-column="10" />
+        <state relative-caret-position="589">
+          <caret line="198" column="3" lean-forward="true" selection-start-line="198" selection-start-column="3" selection-end-line="198" selection-end-column="3" />
           <folding>
             <element signature="e#838#882#0" expanded="true" />
-            <element signature="e#3067#3282#0" expanded="false" />
-            <element signature="e#3329#5178#0" expanded="false" />
           </folding>
         </state>
       </provider>
