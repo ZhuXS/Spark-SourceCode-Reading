@@ -130,3 +130,17 @@ private def postMessage(
 }
 ```
 
+将message推送到endpoint的Inbox，并且将相应的EndpointData存储到receivers。
+
+##### def postRemoteMessage(message: RequestMessage, callback: RpcResponseCallback): Unit
+
+```scala
+def postRemoteMessage(message: RequestMessage, callback: RpcResponseCallback): Unit = {
+  val rpcCallContext =
+    new RemoteNettyRpcCallContext(nettyEnv, callback, message.senderAddress)
+  val rpcMessage = RpcMessage(message.senderAddress, message.content, rpcCallContext)
+  postMessage(message.receiver.name, rpcMessage, (e) => callback.onFailure(e))
+}
+```
+
+推送一个远程终端发送过来的消息。

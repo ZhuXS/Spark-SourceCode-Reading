@@ -52,7 +52,7 @@ private[netty] class LocalNettyRpcCallContext(
 }
 
 /**
- * A [[RpcCallContext]] that will call [[RpcResponseCallback]] to send the reply back.
+ * A [[RpcCallContext]] that will call [[RpcResponseCallback]] to C the reply back.
  */
 private[netty] class RemoteNettyRpcCallContext(
     nettyEnv: NettyRpcEnv,
