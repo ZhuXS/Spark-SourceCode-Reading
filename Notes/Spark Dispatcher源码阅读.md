@@ -144,3 +144,98 @@ def postRemoteMessage(message: RequestMessage, callback: RpcResponseCallback): U
 ```
 
 推送一个远程终端发送过来的消息。
+
+##### def postLocalMessage(message: RequestMessage, p: Promise[Any]): Unit 
+
+```scala
+def postLocalMessage(message: RequestMessage, p: Promise[Any]): Unit = {
+  val rpcCallContext =
+    new LocalNettyRpcCallContext(message.senderAddress, p)
+  val rpcMessage = RpcMessage(message.senderAddress, message.content, rpcCallContext)
+  postMessage(message.receiver.name, rpcMessage, (e) => p.tryFailure(e))
+}
+```
+
+推送一个本地终端发送过来的消息。
+
+##### def postOneWayMessage(message: RequestMessage): Unit
+
+```scala
+def postOneWayMessage(message: RequestMessage): Unit = {
+  postMessage(message.receiver.name, OneWayMessage(message.senderAddress, message.content),
+    (e) => throw e)
+}
+```
+
+推送一个单向的消息。
+
+##### def stop(): Unit
+
+```scala
+def stop(): Unit = {
+  synchronized {
+    if (stopped) {
+      return
+    }
+    stopped = true
+  }
+  endpoints.keySet().asScala.foreach(unregisterRpcEndpoint)
+  receivers.offer(PoisonPill)
+  threadpool.shutdown()
+}
+```
+
+dispatcher的stop方法。
+解除所有RpcEndpoint的绑定，向receiver中offer一个名为PoisonPill的EndpointData
+
+```scala
+private val PoisonPill = new EndpointData(null, null, null)
+```
+
+并关闭线程池。
+
+##### private class MessageLoop extends Runnable
+
+```scala
+private class MessageLoop extends Runnable {
+  override def run(): Unit = {
+    try {
+      while (true) {
+        try {
+          val data = receivers.take()
+          if (data == PoisonPill) {
+            // Put PoisonPill back so that other MessageLoops can see it.
+            receivers.offer(PoisonPill)
+            return
+          }
+          data.inbox.process(Dispatcher.this)
+        } catch {
+          case NonFatal(e) => logError(e.getMessage, e)
+        }
+      }
+    } catch {
+      case ie: InterruptedException => // exit
+    }
+  }
+}
+```
+
+分发消息的task，继承Runable接口，交由线程池执行。
+
+从receivers中取出一个EndpointData，如果是PoisonPill，则返回，停止MessageLoop。在返回之前，要将PoisonPill放回receivers，所以线程池的其他线程也能够取到Poison来停止MessageLoop。
+
+##### private val threadpool: ThreadPoolExecutor
+
+```scala
+private val threadpool: ThreadPoolExecutor = {
+  val numThreads = nettyEnv.conf.getInt("spark.rpc.netty.dispatcher.numThreads",
+    math.max(2, Runtime.getRuntime.availableProcessors()))
+  val pool = ThreadUtils.newDaemonFixedThreadPool(numThreads, "dispatcher-event-loop")
+  for (i <- 0 until numThreads) {
+    pool.execute(new MessageLoop)
+  }
+  pool
+}
+```
+
+用于分发消息的线程池（执行messageLoop）。
