@@ -1,5 +1,0 @@
-/Users/shusesshou/Documents/GitHub/spark-2.2.0/common/unsafe/src/test/java/org/apache/spark/unsafe/types/CalendarIntervalSuite.java
-/Users/shusesshou/Documents/GitHub/spark-2.2.0/common/unsafe/src/test/java/org/apache/spark/unsafe/array/LongArraySuite.java
-/Users/shusesshou/Documents/GitHub/spark-2.2.0/common/unsafe/src/test/java/org/apache/spark/unsafe/PlatformUtilSuite.java
-/Users/shusesshou/Documents/GitHub/spark-2.2.0/common/unsafe/src/test/java/org/apache/spark/unsafe/types/UTF8StringSuite.java
-/Users/shusesshou/Documents/GitHub/spark-2.2.0/common/unsafe/src/test/java/org/apache/spark/unsafe/hash/Murmur3_x86_32Suite.java

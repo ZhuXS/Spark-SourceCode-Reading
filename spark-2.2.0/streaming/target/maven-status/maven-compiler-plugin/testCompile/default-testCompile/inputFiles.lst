@@ -1,9 +1,0 @@
-/Users/shusesshou/Documents/GitHub/spark-2.2.0/streaming/src/test/java/org/apache/spark/streaming/JavaMapWithStateSuite.java
-/Users/shusesshou/Documents/GitHub/spark-2.2.0/streaming/src/test/java/org/apache/spark/streaming/LocalJavaStreamingContext.java
-/Users/shusesshou/Documents/GitHub/spark-2.2.0/streaming/src/test/java/test/org/apache/spark/streaming/JavaAPISuite.java
-/Users/shusesshou/Documents/GitHub/spark-2.2.0/streaming/src/test/java/org/apache/spark/streaming/JavaTimeSuite.java
-/Users/shusesshou/Documents/GitHub/spark-2.2.0/streaming/src/test/java/org/apache/spark/streaming/JavaReceiverAPISuite.java
-/Users/shusesshou/Documents/GitHub/spark-2.2.0/streaming/src/test/java/test/org/apache/spark/streaming/Java8APISuite.java
-/Users/shusesshou/Documents/GitHub/spark-2.2.0/streaming/src/test/java/org/apache/spark/streaming/JavaWriteAheadLogSuite.java
-/Users/shusesshou/Documents/GitHub/spark-2.2.0/streaming/src/test/java/org/apache/spark/streaming/JavaDurationSuite.java
-/Users/shusesshou/Documents/GitHub/spark-2.2.0/streaming/src/test/java/org/apache/spark/streaming/JavaStreamingListenerAPISuite.java
