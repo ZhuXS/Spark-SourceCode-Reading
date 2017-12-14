@@ -50,11 +50,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LiveListenerBus.scala" pinned="false" current-in-tab="false">
+      <file leaf-file-name="LiveListenerBus.scala" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/scheduler/LiveListenerBus.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="333">
-              <caret line="93" column="18" lean-forward="false" selection-start-line="93" selection-start-column="18" selection-end-line="93" selection-end-column="18" />
+            <state relative-caret-position="615">
+              <caret line="198" column="20" lean-forward="false" selection-start-line="198" selection-start-column="6" selection-end-line="198" selection-end-column="20" />
               <folding />
             </state>
           </provider>
@@ -70,7 +70,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SparkListenerBus.scala" pinned="false" current-in-tab="true">
+      <file leaf-file-name="SparkListenerBus.scala" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/scheduler/SparkListenerBus.scala">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="34">
@@ -83,7 +83,7 @@
       <file leaf-file-name="SparkListener.scala" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/scheduler/SparkListener.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="296">
+            <state relative-caret-position="911">
               <caret line="184" column="21" lean-forward="false" selection-start-line="184" selection-start-column="21" selection-end-line="184" selection-end-column="21" />
               <folding />
             </state>
@@ -379,12 +379,12 @@
       <updated>1512616407995</updated>
       <workItem from="1512616411171" duration="1821000" />
       <workItem from="1513081808499" duration="596000" />
-      <workItem from="1513220849788" duration="379000" />
+      <workItem from="1513220849788" duration="769000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2796000" />
+    <option name="totallyTimeSpent" value="3186000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
@@ -475,22 +475,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/scheduler/SparkListener.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="296">
-          <caret line="184" column="21" lean-forward="false" selection-start-line="184" selection-start-column="21" selection-end-line="184" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/scheduler/LiveListenerBus.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="333">
-          <caret line="93" column="18" lean-forward="false" selection-start-line="93" selection-start-column="18" selection-end-line="93" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/sql/core/src/test/scala/org/apache/spark/sql/streaming/StreamingQueryListenerSuite.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="413">
@@ -511,6 +495,22 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
           <caret line="27" column="25" lean-forward="false" selection-start-line="27" selection-start-column="25" selection-end-line="27" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/scheduler/SparkListener.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="911">
+          <caret line="184" column="21" lean-forward="false" selection-start-line="184" selection-start-column="21" selection-end-line="184" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/scheduler/LiveListenerBus.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="615">
+          <caret line="198" column="20" lean-forward="false" selection-start-line="198" selection-start-column="6" selection-end-line="198" selection-end-column="20" />
           <folding />
         </state>
       </provider>
