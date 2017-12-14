@@ -1,0 +1,4 @@
+/Users/shusesshou/Documents/GitHub/Spark-SourceCode-Reading/spark-2.2.0/external/kafka-0-10/src/test/java/org/apache/spark/streaming/kafka010/JavaKafkaRDDSuite.java
+/Users/shusesshou/Documents/GitHub/Spark-SourceCode-Reading/spark-2.2.0/external/kafka-0-10/src/test/java/org/apache/spark/streaming/kafka010/JavaLocationStrategySuite.java
+/Users/shusesshou/Documents/GitHub/Spark-SourceCode-Reading/spark-2.2.0/external/kafka-0-10/src/test/java/org/apache/spark/streaming/kafka010/JavaConsumerStrategySuite.java
+/Users/shusesshou/Documents/GitHub/Spark-SourceCode-Reading/spark-2.2.0/external/kafka-0-10/src/test/java/org/apache/spark/streaming/kafka010/JavaDirectKafkaStreamSuite.java

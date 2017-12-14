@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="maven-antrun-" default="main"  >
+<target name="main">
+  <mkdir dir="/Users/shusesshou/Documents/GitHub/Spark-SourceCode-Reading/spark-2.2.0/streaming/target/tmp"/>
+</target>
+</project>
